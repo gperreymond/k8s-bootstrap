@@ -10,13 +10,19 @@ spec:
     automated:
       prune: true
       selfHeal: true
-  source:
-    repoURL: https://github.com/gperreymond/k8s-bootstrap.git
-    path: applications/infra
-    targetRevision: HEAD
+  sources:
+    - repoURL: https://github.com/gperreymond/k8s-bootstrap.git
+      path: applications/infra
+      targetRevision: HEAD
+    - repoURL: https://charts.jetstack.io
+      chart: cert-manager
+      targetRevision: '1.14.3'
+      helm:
+        values: |-
+          installCRDs: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: argo-system
+    namespace: domain-infra
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -30,10 +36,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
-  source:
-    repoURL: https://github.com/gperreymond/k8s-bootstrap.git
-    path: applications/monitoring
-    targetRevision: HEAD
+  sources:
+    - repoURL: https://github.com/gperreymond/k8s-bootstrap.git
+      path: applications/monitoring
+      targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: argo-system
+    namespace: domain-monitoring
