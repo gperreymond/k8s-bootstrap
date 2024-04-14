@@ -1,14 +1,8 @@
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cert-manager
-
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: domain-infra
   namespace: argo-system
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -19,12 +13,9 @@ spec:
       prune: true
       selfHeal: true
   source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: '1.14.4'
-    helm:
-      values: |-
-        installCRDs: true
+    repoURL: https://github.com/gperreymond/k8s-bootstrap.git
+    path: applications/infra
+    targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: argo-system
