@@ -1,0 +1,19 @@
+{
+    "$schema": "https://raw.githubusercontent.com/jetpack-io/devbox/0.10.4/.schema/devbox.schema.json",
+    "packages": [
+      "kubectl@1.29.3",
+      "kubectx@0.9.5",
+      "kubernetes-helm@3.14.3",
+      "awscli2@2.15.32",
+      "go-task@3.35.1",
+      "k3d@5.6.0"
+    ],
+    "shell": {
+      "init_hook": [],
+      "scripts": {
+        "cluster-create": ["task cluster-create"]
+      }  
+    }
+  }
+  
+  
