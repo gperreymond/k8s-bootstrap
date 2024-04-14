@@ -23,3 +23,8 @@ $ devbox run cluster-prepare
 # destroy the cluster
 $ devbox run cluster-destroy
 ```
+
+## Web sites
+
+* https://traefik.docker.localhost/dashboard/#/
+* https://argo-cd.docker.localhost/

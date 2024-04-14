@@ -20,15 +20,14 @@ tasks:
       - helm repo add argo https://argoproj.github.io/argo-helm
       - helm repo update
   install-argo-cd:
-    internal: true
     sources:
-      - charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz
-      - values/argo-cd.yaml
-    deps:
-      - helm-repo
-    cmds:
-      - helm pull argo/argo-cd --version {{.ARGO_CD_VERSION}} --destination charts
-      - helm upgrade argo-cd charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
+    - charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz
+    - values/argo-cd.yaml
+  deps:
+    - helm-repo
+  cmds:
+    - helm pull argo/argo-cd --version {{.ARGO_CD_VERSION}} --destination charts
+    - helm upgrade argo-cd charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
   install-argo-events:
     internal: true
     sources:
@@ -75,3 +74,8 @@ tasks:
       - task: install-argo-cd
       - task: install-argo-events
       - task: install-argo-workflows
+      - kubectl apply -f manifests/000-argo-cd-projects.yaml
+      - kubectl apply -f manifests/010-cert-manager.yaml
+      - kubectl apply -f manifests/011-traefik.yaml
+      - kubectl apply -f manifests/012-argo-cd.yaml
+      - kubectl apply -f manifests/013-argo-workflows.yaml
