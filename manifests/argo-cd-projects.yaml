@@ -15,7 +15,13 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - namespace: domain-infra
+    - namespace: cert-manager
+      server: https://kubernetes.default.svc
+      name: in-cluster
+    - namespace: argo-system
+      server: https://kubernetes.default.svc
+      name: in-cluster
+    - namespace: kube-system
       server: https://kubernetes.default.svc
       name: in-cluster
 
@@ -26,7 +32,7 @@ metadata:
   name: monitoring
   namespace: argo-system
 spec:
-  description: All monitoring applications
+  description: All monitoring for datacenter
   sourceRepos:
     - '*'
   namespaceResourceWhitelist:
@@ -36,6 +42,9 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - namespace: domain-monitoring
+    - namespace: argo-system
+      server: https://kubernetes.default.svc
+      name: in-cluster
+    - namespace: kube-system
       server: https://kubernetes.default.svc
       name: in-cluster

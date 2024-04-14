@@ -67,8 +67,7 @@ tasks:
   cluster-prepare:
     vars:
       NAMESPACES: |-
-        domain-infra
-        domain-monitoring
+        cert-manager
     cmds:
       - cmd: mkdir charts
         ignore_error: true
