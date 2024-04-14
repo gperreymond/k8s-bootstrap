@@ -12,6 +12,7 @@ tasks:
   # ---------------
   # INTERNALS
   # ---------------
+
   helm-repo:
     internal: true
     sources:
@@ -19,15 +20,17 @@ tasks:
     cmds:
       - helm repo add argo https://argoproj.github.io/argo-helm
       - helm repo update
+
   install-argo-cd:
     sources:
-    - charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz
-    - values/argo-cd.yaml
-  deps:
-    - helm-repo
-  cmds:
-    - helm pull argo/argo-cd --version {{.ARGO_CD_VERSION}} --destination charts
-    - helm upgrade argo-cd charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
+      - charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz
+      - values/argo-cd.yaml
+    deps:
+      - helm-repo
+    cmds:
+      - helm pull argo/argo-cd --version {{.ARGO_CD_VERSION}} --destination charts
+      - helm upgrade argo-cd charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
+
   install-argo-events:
     internal: true
     sources:
@@ -38,6 +41,7 @@ tasks:
     cmds:
       - helm pull argo/argo-events --version {{.ARGO_EVENTS_VERSION}} --destination charts
       - helm upgrade argo-events charts/argo-events-{{.ARGO_EVENTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-events.yaml
+  
   install-argo-workflows:
     internal: true
     sources:
@@ -52,18 +56,21 @@ tasks:
   # ---------------
   # ALLOWED
   # ---------------
+
   cluster-destroy:
     ignore_error: true
     cmds:
       - k3d cluster stop dev-local
       - k3d cluster delete dev-local
       - docker network rm k3d-dev-local
+
   cluster-create:
     cmds:
       - docker network create k3d-dev-local
       - k3d cluster create --image rancher/k3s:v{{.KUBERNETES_VERSION}}-k3s1 --config cluster.yaml
       - kubectx k3d-dev-local
       - kubectl cluster-info --context k3d-dev-local
+
   cluster-prepare:
     vars:
       NAMESPACES: |-
