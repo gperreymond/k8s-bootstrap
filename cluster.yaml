@@ -1,4 +1,4 @@
-apiVersion: k3d.io/v1alpha5
+apiVersion: k3d.io/v1alpha4
 kind: Simple
 metadata:
   name: dev-local
@@ -6,9 +6,9 @@ servers: 1
 agents: 3
 network: k3d-dev-local
 ports:
-- port: '80:80'
-  nodeFilters:
-  - loadbalancer
-- port: '443:443'
-  nodeFilters:
-  - loadbalancer
+  - port: '80:80'
+    nodeFilters:
+    - loadbalancer
+  - port: '443:443'
+    nodeFilters:
+    - loadbalancer

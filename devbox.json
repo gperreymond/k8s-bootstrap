@@ -12,7 +12,8 @@
       "init_hook": [],
       "scripts": {
         "cluster-create": ["task cluster-create"],
-        "cluster-prepare": ["task cluster-prepare"]
+        "cluster-prepare": ["task cluster-prepare"],
+        "cluster-destroy": ["task cluster-destroy"]
       }  
     }
   }

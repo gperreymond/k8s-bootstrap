@@ -1,0 +1,9 @@
+crds:
+  install: true
+
+server:
+  authModes: ['server']
+
+controller:
+  metricsConfig:
+    enabled: true

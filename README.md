@@ -20,4 +20,6 @@ devbox shell
 $ devbox run cluster-create
 # prepare the cluster
 $ devbox run cluster-prepare
+# destroy the cluster
+$ devbox run cluster-destroy
 ```
