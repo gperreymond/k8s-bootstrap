@@ -1,0 +1,5 @@
+apiVersion: v2
+name: infra
+description: Argo-CD Infra appplications
+type: application
+version: 1.0.0

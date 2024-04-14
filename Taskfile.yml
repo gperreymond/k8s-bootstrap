@@ -65,6 +65,10 @@ tasks:
       - kubectx k3d-dev-local
       - kubectl cluster-info --context k3d-dev-local
   cluster-prepare:
+    vars:
+      NAMESPACES: |-
+        cert-manager
+        victoria-metrics
     cmds:
       - cmd: mkdir charts
         ignore_error: true
@@ -74,8 +78,6 @@ tasks:
       - task: install-argo-cd
       - task: install-argo-events
       - task: install-argo-workflows
-      - kubectl apply -f manifests/000-argo-cd-projects.yaml
-      - kubectl apply -f manifests/010-cert-manager.yaml
-      - kubectl apply -f manifests/011-traefik.yaml
-      - kubectl apply -f manifests/012-argo-cd.yaml
-      - kubectl apply -f manifests/013-argo-workflows.yaml
+      - for: { var: NAMESPACES }
+        ignore_error: true
+        cmd: kubectl create ns {{.ITEM}}
