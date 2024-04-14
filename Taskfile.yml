@@ -2,11 +2,54 @@
 version: '3'
 
 tasks:
+  # ---------------
+  # INTERNALS
+  # ---------------
+  helm-repo:
+    internal: true
+    sources:
+      - $(helm env HELM_REPOSITORY_CACHE)/*index.yaml
+    cmds:
+      - helm repo add argo https://argoproj.github.io/argo-helm
+      - helm repo update
+  install-argo-cd:
+    internal: true
+    deps:
+      - helm-repo
+    cmds:
+      - kubectx k3d-dev-local
+  install-argo-events:
+    internal: true
+    deps:
+      - helm-repo
+    cmds:
+      - kubectx k3d-dev-local
+  install-argo-workflows:
+    internal: true
+    deps:
+      - helm-repo
+    cmds:
+      - kubectx k3d-dev-local
+  # ---------------
+  # ALLOWED
+  # ---------------
   cluster-create:
     cmds:
       - docker network create k3d-dev-local
       - k3d cluster create --config cluster.yaml
-      # change kubernetes context
       - kubectx k3d-dev-local
       - kubectl cluster-info --context k3d-dev-local
-
+  cluster-prepare:
+    cmds:
+      - kubectx k3d-dev-local
+      - cmd: kubectl create ns argo-system
+        ignore_error: true
+      - task: install-argo-cd
+        vars:
+          ARGO_CD_VERSION: '6.7.11'
+      - task: install-argo-events
+        vars:
+          ARGO_EVENTS_VERSION: '2.4.4'
+      - task: install-argo-workflows
+        vars:
+          ARGO_WORKFLOWS_VERSION: '0.41.1'

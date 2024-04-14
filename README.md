@@ -18,4 +18,6 @@ devbox shell
 ```sh
 # create the cluster
 $ devbox run cluster-create
+# prepare the cluster
+$ devbox run cluster-prepare
 ```

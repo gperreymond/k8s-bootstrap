@@ -11,7 +11,8 @@
     "shell": {
       "init_hook": [],
       "scripts": {
-        "cluster-create": ["task cluster-create"]
+        "cluster-create": ["task cluster-create"],
+        "cluster-prepare": ["task cluster-prepare"]
       }  
     }
   }
