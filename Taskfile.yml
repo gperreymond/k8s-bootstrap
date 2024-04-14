@@ -81,3 +81,5 @@ tasks:
       - for: { var: NAMESPACES }
         ignore_error: true
         cmd: kubectl create ns {{.ITEM}}
+      - kubectl apply -f manifests/argo-cd-projects.yaml
+      - kubectl apply -f manifests/argo-cd-domains.yaml

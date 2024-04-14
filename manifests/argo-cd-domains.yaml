@@ -4,8 +4,6 @@ kind: Application
 metadata:
   name: domain-infra
   namespace: argo-system
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: infra
   syncPolicy:
