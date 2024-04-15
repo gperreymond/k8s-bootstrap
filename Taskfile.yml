@@ -3,9 +3,9 @@ version: '3'
 
 vars:
   KUBERNETES_VERSION: '1.29.3'
-  ARGO_CD_VERSION: '6.7.11'
-  ARGO_EVENTS_VERSION: '2.4.4'
-  ARGO_WORKFLOWS_VERSION: '0.41.1'
+  HELM_ARGO_CD_VERSION: '6.7.11'
+  HELM_ARGO_EVENTS_VERSION: '2.4.4'
+  HELM_ARGO_WORKFLOWS_VERSION: '0.41.1'
 
 tasks:
 
@@ -23,35 +23,35 @@ tasks:
 
   install-argo-cd:
     sources:
-      - charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz
+      - charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz
       - values/argo-cd.yaml
     deps:
       - helm-repo
     cmds:
-      - helm pull argo/argo-cd --version {{.ARGO_CD_VERSION}} --destination charts
-      - helm upgrade argo-cd charts/argo-cd-{{.ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
+      - helm pull argo/argo-cd --version {{.HELM_ARGO_CD_VERSION}} --destination charts
+      - helm upgrade argo-cd charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
 
   install-argo-events:
     internal: true
     sources:
-      - charts/argo-events-{{.ARGO_EVENTS_VERSION}}.tgz
+      - charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz
       - values/argo-events.yaml
     deps:
       - helm-repo
     cmds:
-      - helm pull argo/argo-events --version {{.ARGO_EVENTS_VERSION}} --destination charts
-      - helm upgrade argo-events charts/argo-events-{{.ARGO_EVENTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-events.yaml
+      - helm pull argo/argo-events --version {{.HELM_ARGO_EVENTS_VERSION}} --destination charts
+      - helm upgrade argo-events charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-events.yaml
   
   install-argo-workflows:
     internal: true
     sources:
-      - charts/argo-workflows-{{.ARGO_WORKFLOWS_VERSION}}.tgz
+      - charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz
       - values/argo-workflows.yaml
     deps:
       - helm-repo
     cmds:
-      - helm pull argo/argo-workflows --version {{.ARGO_WORKFLOWS_VERSION}} --destination charts
-      - helm upgrade argo-workflows charts/argo-workflows-{{.ARGO_WORKFLOWS_VERSION}}.tgz --install --namespace argo-system --values values/argo-workflows.yaml
+      - helm pull argo/argo-workflows --version {{.HELM_ARGO_WORKFLOWS_VERSION}} --destination charts
+      - helm upgrade argo-workflows charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz --install --namespace argo-system --values values/argo-workflows.yaml
 
   # ---------------
   # ALLOWED
@@ -74,18 +74,17 @@ tasks:
   cluster-prepare:
     vars:
       NAMESPACES: |-
+        argo-system
         cert-manager
     cmds:
       - cmd: mkdir charts
         ignore_error: true
       - kubectx k3d-dev-local
-      - cmd: kubectl create ns argo-system
-        ignore_error: true
-      - task: install-argo-cd
-      - task: install-argo-events
-      - task: install-argo-workflows
       - for: { var: NAMESPACES }
         ignore_error: true
         cmd: kubectl create ns {{.ITEM}}
+      - task: install-argo-cd
+      - task: install-argo-events
+      - task: install-argo-workflows
       - kubectl apply -f manifests/argo-cd-projects.yaml
       - kubectl apply -f manifests/argo-cd-domains.yaml
