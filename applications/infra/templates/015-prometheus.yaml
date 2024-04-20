@@ -14,7 +14,7 @@ spec:
         - kind: Service
           name: prometheus-server
           namespace: prometheus
-          port: 9090
+          port: 80
           passHostHeader: true
   tls:
     secretName: prometheus.docker.localhost

@@ -30,3 +30,4 @@ $ devbox run cluster-destroy
 * https://argo-cd.docker.localhost/
 * https://argo-workflows.docker.localhost/
 * https://argo-rollouts.docker.localhost/rollouts/
+* https://prometheus.docker.localhost/
