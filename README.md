@@ -28,3 +28,4 @@ $ devbox run cluster-destroy
 
 * https://traefik.docker.localhost/dashboard/#/
 * https://argo-cd.docker.localhost/
+* https://argo-workflows.docker.localhost/
