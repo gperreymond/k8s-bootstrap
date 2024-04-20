@@ -1,0 +1,6 @@
+controller:
+  metrics:
+    enabled: true
+
+dashboard:
+  enabled: true

@@ -1,0 +1,72 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+    dashboard:
+      enabled: true
+    ports:
+      web:
+        port: 80
+      websecure:
+        port: 443
+      traefik:
+        expose: true
+    logs:
+      general:
+        format: json
+      access:
+        enabled: true
+        format: json
+    additionalArguments:
+      - '--entryPoints.web.http.redirections.entryPoint.to=websecure'
+      - '--entryPoints.web.http.redirections.entryPoint.scheme=https'
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-route
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: 'Host(`traefik.docker.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
+      kind: Rule
+      services:
+        - kind: Service
+          name: traefik
+          namespace: kube-system
+          port: 9000
+  tls:
+    secretName: traefik.docker.localhost
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik-docker-localhost
+  namespace: kube-system
+spec:
+  secretName: traefik.docker.localhost
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - 'traefik.docker.localhost'

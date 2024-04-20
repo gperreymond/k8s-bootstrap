@@ -1,0 +1,46 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-cd-route
+  namespace: argo-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: 'Host(`argo-cd.docker.localhost`)'
+      kind: Rule
+      priority: 10
+      services:
+        - kind: Service
+          name: argo-cd-argocd-server
+          namespace: argo-system
+          port: 80
+          passHostHeader: true
+    - match: 'Host(`argo-cd.docker.localhost`) && Headers(`Content-Type`, `application/grpc`)'
+      kind: Rule
+      priority: 11
+      services:
+        - kind: Service
+          name: argo-cd-argocd-server
+          namespace: argo-system
+          port: 80
+          passHostHeader: true
+          scheme: h2c
+  tls:
+    secretName: argo-cd.docker.localhost
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argo-cd-docker-localhost
+  namespace: argo-system
+spec:
+  secretName: argo-cd.docker.localhost
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - 'argo-cd.docker.localhost'
+        
