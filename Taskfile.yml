@@ -14,26 +14,16 @@ tasks:
   # INTERNALS
   # ---------------
 
-  helm-repo:
-    internal: true
-    sources:
-      - $(helm env HELM_REPOSITORY_CACHE)/*index.yaml
-    cmds:
-      - helm repo add argo https://argoproj.github.io/argo-helm
-  
   helm-repo-update:
     internal: true
-    deps:
-      - helm-repo
     cmds:
+      - helm repo add argo https://argoproj.github.io/argo-helm
       - helm repo update
 
   install-argo-cd:
     sources:
       - charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz
       - values/argo-cd.yaml
-    deps:
-      - helm-repo-update
     cmds:
       - helm pull argo/argo-cd --version {{.HELM_ARGO_CD_VERSION}} --destination charts
       - helm upgrade argo-cd charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
@@ -42,8 +32,6 @@ tasks:
     sources:
       - charts/argo-rollouts-{{.HELM_ARGO_ROLLOUTS_VERSION}}.tgz
       - values/argo-rollouts.yaml
-    deps:
-      - helm-repo-update
     cmds:
       - helm pull argo/argo-rollouts --version {{.HELM_ARGO_ROLLOUTS_VERSION}} --destination charts
       - helm upgrade argo-rollouts charts/argo-rollouts-{{.HELM_ARGO_ROLLOUTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-rollouts.yaml
@@ -54,8 +42,6 @@ tasks:
     sources:
       - charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz
       - values/argo-events.yaml
-    deps:
-      - helm-repo-update
     cmds:
       - helm pull argo/argo-events --version {{.HELM_ARGO_EVENTS_VERSION}} --destination charts
       - helm upgrade argo-events charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-events.yaml
@@ -65,8 +51,6 @@ tasks:
     sources:
       - charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz
       - values/argo-workflows.yaml
-    deps:
-      - helm-repo-update
     cmds:
       - helm pull argo/argo-workflows --version {{.HELM_ARGO_WORKFLOWS_VERSION}} --destination charts
       - helm upgrade argo-workflows charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz --install --namespace argo-system --values values/argo-workflows.yaml
@@ -96,6 +80,7 @@ tasks:
         cert-manager
         prometheus
     cmds:
+      - task: helm-repo-update
       - cmd: mkdir charts
         ignore_error: true
       - kubectx k3d-dev-local
