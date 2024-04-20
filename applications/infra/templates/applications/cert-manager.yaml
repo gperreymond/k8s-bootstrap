@@ -32,6 +32,13 @@ spec:
               memory: 32Mi
             limits:
               memory: 64Mi
+        cainjector:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
