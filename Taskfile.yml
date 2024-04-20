@@ -94,6 +94,7 @@ tasks:
       NAMESPACES: |-
         argo-system
         cert-manager
+        prometheus
     cmds:
       - cmd: mkdir charts
         ignore_error: true
