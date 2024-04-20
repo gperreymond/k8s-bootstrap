@@ -1,0 +1,35 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-route
+  namespace: argo-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: 'Host(`prometheus.docker.localhost`)'
+      kind: Rule
+      services:
+        - kind: Service
+          name: prometheus-server
+          namespace: prometheus
+          port: 9090
+          passHostHeader: true
+  tls:
+    secretName: prometheus.docker.localhost
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prometheus-docker-localhost
+  namespace: argo-system
+spec:
+  secretName: prometheus.docker.localhost
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - 'prometheus.docker.localhost'
+        
