@@ -18,6 +18,18 @@ spec:
     targetRevision: '25.19.1'
     helm:
       values: |-
+        commonMetaLabels:
+          app: prometheus
+          domain: monitoring
+        server:
+          retention: 6h
+          retentionSize: 5GB
+          resources:
+            requests:
+              cpu: 500m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
         alertmanager:
           enabled: false
         prometheus-pushgateway:
@@ -26,6 +38,15 @@ spec:
           enabled: true
         prometheus-node-exporter:
           enabled: true
+          podLabels:
+            app: node-exporter
+            domain: monitoring
+          resources:
+            requests:
+              cpu: 100m
+              memory: 30Mi
+            limits:
+              memory: 50Mi
   destination:
     server: https://kubernetes.default.svc
     namespace: prometheus
