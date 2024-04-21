@@ -21,6 +21,14 @@ spec:
         commonMetaLabels:
           app: prometheus
           domain: monitoring
+        configmapReload:
+          prometheus:
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
         server:
           retention: 6h
           retentionSize: 5GB
