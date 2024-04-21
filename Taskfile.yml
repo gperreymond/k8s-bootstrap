@@ -79,6 +79,7 @@ tasks:
         argo-system
         cert-manager
         prometheus
+        grafana
     cmds:
       - task: helm-repo-update
       - cmd: mkdir charts

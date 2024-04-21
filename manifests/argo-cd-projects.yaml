@@ -51,3 +51,6 @@ spec:
     - namespace: prometheus
       server: https://kubernetes.default.svc
       name: in-cluster
+    - namespace: grafana
+      server: https://kubernetes.default.svc
+      name: in-cluster
