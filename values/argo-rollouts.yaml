@@ -1,11 +1,23 @@
 controller:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
   metrics:
     enabled: true
 
 dashboard:
   enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
 
 global:
   deploymentLabels:
-    app: argo-events
+    app: argo-rollouts
     domain: infra

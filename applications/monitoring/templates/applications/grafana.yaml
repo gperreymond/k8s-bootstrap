@@ -20,6 +20,9 @@ spec:
       values: |-
         adminUser: admin
         adminPassword: changeme
+        extraLabels:
+          app: grafana
+          domain: monitoring
         persistence:
           enabled: true
         resources:
