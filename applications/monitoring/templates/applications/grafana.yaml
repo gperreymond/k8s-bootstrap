@@ -20,8 +20,6 @@ spec:
       values: |-
         adminUser: admin
         adminPassword: changeme
-        serviceMonitor:
-          enabled: true
         persistence:
           enabled: true
         resources:
