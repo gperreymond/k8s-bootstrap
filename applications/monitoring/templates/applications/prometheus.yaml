@@ -36,6 +36,15 @@ spec:
           enabled: false
         kube-state-metrics:
           enabled: true
+          customLabels:
+            app: kube-state-metrics
+            domain: monitoring
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
         prometheus-node-exporter:
           enabled: true
           podLabels:
