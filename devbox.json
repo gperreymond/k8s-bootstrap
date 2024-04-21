@@ -6,7 +6,8 @@
       "kubernetes-helm@3.14.3",
       "awscli2@2.15.32",
       "go-task@3.35.1",
-      "k3d@5.6.0"
+      "k3d@5.6.0",
+      "trivy@0.50.1"
     ],
     "shell": {
       "init_hook": [],

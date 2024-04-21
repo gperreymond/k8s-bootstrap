@@ -340,6 +340,54 @@
           "store_path": "/nix/store/0vf3gsyjrkxrkwygi3igidd4hzab8iq9-kubernetes-helm-3.14.3"
         }
       }
+    },
+    "trivy@0.50.1": {
+      "last_modified": "2024-03-28T07:17:37-04:00",
+      "resolved": "github:NixOS/nixpkgs/72c6ed328aa4e5d9151b1a512f6ad83aca7529fa#trivy",
+      "source": "devbox-search",
+      "version": "0.50.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/4vww9bv25m78avwj8wv52b2nf35xmf09-trivy-0.50.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/4vww9bv25m78avwj8wv52b2nf35xmf09-trivy-0.50.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hnilx6ffd997z1q4ji91b4fdlg8kbqbk-trivy-0.50.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hnilx6ffd997z1q4ji91b4fdlg8kbqbk-trivy-0.50.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jwnx51yx7dx545ksf37f8yipysxg9ydm-trivy-0.50.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jwnx51yx7dx545ksf37f8yipysxg9ydm-trivy-0.50.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/z0i4mr840yf772swi2ry5rvw0dw32p6f-trivy-0.50.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/z0i4mr840yf772swi2ry5rvw0dw32p6f-trivy-0.50.1"
+        }
+      }
     }
   }
 }
