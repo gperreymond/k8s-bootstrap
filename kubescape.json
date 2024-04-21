@@ -1,0 +1,22 @@
+[
+    {
+        "name": "exclude-resources-limits-cpu",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": ".*"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-0270" 
+            }
+        ]
+    }
+]

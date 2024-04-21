@@ -1,2 +1,7 @@
 crds:
   install: true
+
+global:
+  additionalLabels:
+    app: argo-events
+    domain: infra

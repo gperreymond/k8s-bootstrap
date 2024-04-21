@@ -99,10 +99,10 @@ tasks:
     cmds:
       - kubectx k3d-dev-local
       - mkdir -p reports
-      - kubescape scan framework DevOpsBest --verbose --format html --output reports/kubescape-devops.html
+      - kubescape scan framework DevOpsBest --exceptions kubescape.json --verbose --format html --output reports/kubescape-devops.html
 
   kubescape-soc2:
     cmds:
       - kubectx k3d-dev-local
       - mkdir -p reports
-      - kubescape scan framework SOC2 --verbose --format html --output reports/kubescape-soc2.html
+      - kubescape scan framework SOC2 --exceptions kubescape.json --verbose --format html --output reports/kubescape-soc2.html

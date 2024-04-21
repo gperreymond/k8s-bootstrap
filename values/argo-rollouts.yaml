@@ -4,3 +4,8 @@ controller:
 
 dashboard:
   enabled: true
+
+global:
+  deploymentLabels:
+    app: argo-events
+    domain: infra
