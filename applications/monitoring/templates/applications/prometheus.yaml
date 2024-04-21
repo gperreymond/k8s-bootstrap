@@ -27,9 +27,9 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 128Mi
-            limits:
               memory: 512Mi
+            limits:
+              memory: 2Gi
         alertmanager:
           enabled: false
         prometheus-pushgateway:
