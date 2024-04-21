@@ -7,14 +7,16 @@
       "awscli2@2.15.32",
       "go-task@3.35.1",
       "k3d@5.6.0",
-      "trivy@0.50.1"
+      "kubescape@3.0.8"
     ],
     "shell": {
       "init_hook": [],
       "scripts": {
         "cluster-create": ["task cluster-create"],
         "cluster-prepare": ["task cluster-prepare"],
-        "cluster-destroy": ["task cluster-destroy"]
+        "cluster-destroy": ["task cluster-destroy"],
+        "kubescape-devops": ["task kubescape-devops"],
+        "kubescape-soc2": ["task kubescape-soc2"]
       }  
     }
   }

@@ -81,10 +81,10 @@ tasks:
         prometheus
         grafana
     cmds:
+      - kubectx k3d-dev-local
       - task: helm-repo-update
       - cmd: mkdir charts
         ignore_error: true
-      - kubectx k3d-dev-local
       - for: { var: NAMESPACES }
         ignore_error: true
         cmd: kubectl create ns {{.ITEM}}
@@ -94,3 +94,15 @@ tasks:
       - task: install-argo-workflows
       - kubectl apply -f manifests/argo-cd-projects.yaml
       - kubectl apply -f manifests/argo-cd-domains.yaml
+
+  kubescape-devops:
+    cmds:
+      - kubectx k3d-dev-local
+      - mkdir -p reports
+      - kubescape scan framework DevOpsBest --verbose --format html --output reports/kubescape-devops.html
+
+  kubescape-soc2:
+    cmds:
+      - kubectx k3d-dev-local
+      - mkdir -p reports
+      - kubescape scan framework SOC2 --verbose --format html --output reports/kubescape-soc2.html

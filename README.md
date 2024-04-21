@@ -22,6 +22,9 @@ $ devbox run cluster-create
 $ devbox run cluster-prepare
 # destroy the cluster
 $ devbox run cluster-destroy
+# secops operations
+$ devbox run kubescape-devops
+$ devbox run kubescape-soc2
 ```
 
 ## Web sites
