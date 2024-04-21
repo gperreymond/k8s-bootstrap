@@ -1,0 +1,35 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-route
+  namespace: argo-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: 'Host(`grafana.docker.localhost`)'
+      kind: Rule
+      services:
+        - kind: Service
+          name: grafana
+          namespace: grafana
+          port: 80
+          passHostHeader: true
+  tls:
+    secretName: grafana.docker.localhost
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-docker-localhost
+  namespace: argo-system
+spec:
+  secretName: grafana.docker.localhost
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - 'grafana.docker.localhost'
+        
