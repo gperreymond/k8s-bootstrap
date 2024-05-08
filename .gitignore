@@ -1,4 +1,7 @@
 .devbox/
 .task/
+.vagrant
+.tmp
+
 charts/
 reports/

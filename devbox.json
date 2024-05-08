@@ -1,24 +1,24 @@
 {
-    "$schema": "https://raw.githubusercontent.com/jetpack-io/devbox/0.10.4/.schema/devbox.schema.json",
-    "packages": [
-      "kubectl@1.29.3",
-      "kubectx@0.9.5",
-      "kubernetes-helm@3.14.3",
-      "awscli2@2.15.32",
-      "go-task@3.35.1",
-      "k3d@5.6.0",
-      "kubescape@3.0.8"
-    ],
-    "shell": {
-      "init_hook": [],
-      "scripts": {
-        "cluster-create": ["task cluster-create"],
-        "cluster-prepare": ["task cluster-prepare"],
-        "cluster-destroy": ["task cluster-destroy"],
-        "kubescape-devops": ["task kubescape-devops"],
-        "kubescape-soc2": ["task kubescape-soc2"]
-      }  
+  "$schema": "https://raw.githubusercontent.com/jetpack-io/devbox/0.10.6/.schema/devbox.schema.json",
+  "packages": [
+    "kubectl@1.29.3",
+    "kubectx@0.9.5",
+    "kubernetes-helm@3.14.3",
+    "awscli2@2.15.32",
+    "go-task@3.35.1",
+    "k3d@5.6.0",
+    "kubescape@3.0.8",
+    "vagrant@2.4.1",
+    "tailscale@1.64.2",
+    "jq@1.7.1"
+  ],
+  "shell": {
+    "init_hook": [],
+    "scripts": {
+      "instances:create":    ["task instances-create"],
+      "instances:bootstrap": ["task instances-bootstrap"],
+      "instances:delete":    ["task instances-delete"],
+      "kubeconfigs":         ["task kubeconfigs"]
     }
   }
-  
-  
+}

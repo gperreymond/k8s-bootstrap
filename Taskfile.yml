@@ -59,50 +59,32 @@ tasks:
   # ALLOWED
   # ---------------
 
-  cluster-destroy:
-    ignore_error: true
+  instances-create:
     cmds:
-      - k3d cluster stop dev-local
-      - k3d cluster delete dev-local
-      - docker network rm k3d-dev-local
+      - ssh-keygen -R [127.0.0.1]:2201
+      - ssh-keygen -R [127.0.0.1]:2202
+      - ssh-keygen -R [127.0.0.1]:2203
+      - vagrant up
+      - vagrant ssh-config
 
-  cluster-create:
+  instances-bootstrap:
     cmds:
-      - docker network create k3d-dev-local
-      - k3d cluster create --image rancher/k3s:v{{.KUBERNETES_VERSION}}-k3s1 --config cluster.yaml
-      - kubectx k3d-dev-local
-      - kubectl cluster-info --context k3d-dev-local
+      - vagrant provision
 
-  cluster-prepare:
-    vars:
-      NAMESPACES: |-
-        argo-system
-        cert-manager
-        prometheus
-        grafana
+  instances-delete:
     cmds:
-      - kubectx k3d-dev-local
-      - task: helm-repo-update
-      - cmd: mkdir charts
+      - vagrant destroy --force k8s-worker-001
+      - vagrant destroy --force k8s-worker-002
+      - vagrant destroy --force k8s-controller
+      - ssh-keygen -R [127.0.0.1]:2201
+      - ssh-keygen -R [127.0.0.1]:2202
+      - ssh-keygen -R [127.0.0.1]:2203
+
+  kubeconfigs:
+    cmds:
+      - cmd: rm -rf .tmp/kubeconfigs
         ignore_error: true
-      - for: { var: NAMESPACES }
-        ignore_error: true
-        cmd: kubectl create ns {{.ITEM}}
-      - task: install-argo-cd
-      - task: install-argo-rollouts
-      - task: install-argo-events
-      - task: install-argo-workflows
-      - kubectl apply -f manifests/argo-cd-projects.yaml
-      - kubectl apply -f manifests/argo-cd-domains.yaml
-
-  kubescape-devops:
-    cmds:
-      - kubectx k3d-dev-local
-      - mkdir -p reports
-      - kubescape scan framework DevOpsBest --exceptions kubescape.json --verbose --format html --output reports/kubescape-devops.html
-
-  kubescape-soc2:
-    cmds:
-      - kubectx k3d-dev-local
-      - mkdir -p reports
-      - kubescape scan framework SOC2 --exceptions kubescape.json --verbose --format html --output reports/kubescape-soc2.html
+      - mkdir -p .tmp/kubeconfigs
+      - vagrant ssh k8s-controller -c "k3d kubeconfig show k8s-controller" > .tmp/kubeconfigs/k8s-controller.yaml
+      - vagrant ssh k8s-worker-001 -c "k3d kubeconfig show k8s-worker-001" > .tmp/kubeconfigs/k8s-worker-001.yaml
+      - vagrant ssh k8s-worker-002 -c "k3d kubeconfig show k8s-worker-002" > .tmp/kubeconfigs/k8s-worker-002.yaml

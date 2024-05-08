@@ -16,15 +16,17 @@ devbox shell
 ## Commands
 
 ```sh
-# create the cluster
-$ devbox run cluster-create
-# prepare the cluster
-$ devbox run cluster-prepare
-# destroy the cluster
-$ devbox run cluster-destroy
-# secops operations
-$ devbox run kubescape-devops
-$ devbox run kubescape-soc2
+# create the 3 instances: k8s-controller and k8s-worker-001/k8s-worker-002
+# each instance will be a kubernetes cluster, deployed with k3d
+# k8s-controller, has argo (cd/workflows/events) and monitoring(prometheus/grafana)
+# k8s-worker-001/k8s-worker-002, have nothing, all will be deployed by argo-cd himself
+$ devbox run instances:create
+# reload instances bootstraping
+$ devbox run instances:bootstrap
+# get all kubeconfigs locally
+$ devbox run kubeconfigs
+# delete all
+$ devbox run instances:delete
 ```
 
 ## Web sites
