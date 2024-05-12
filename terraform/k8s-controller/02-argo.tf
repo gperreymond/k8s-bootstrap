@@ -14,15 +14,15 @@ resource "helm_release" "argo_cd" {
   ]
 }
 
-resource "kubernetes_manifest" "argo_cd_project_workers" {
+resource "kubernetes_manifest" "argo_cd_project_edge" {
   manifest = yamldecode(<<YAML
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: workers
+  name: edge
   namespace: ${kubernetes_namespace.argo_system.id}
 spec:
-  description: All applications to deploy in each workers
+  description: All applications to deploy in each "edge" clusters
   sourceRepos:
     - '*'
   namespaceResourceWhitelist:
@@ -42,13 +42,13 @@ YAML
   )
 
   depends_on = [
-    helm_release.argo_cd,
-    kubernetes_manifest.argo_cd_project_workers
+    helm_release.argo_cd
   ]
 }
 
 resource "null_resource" "argo" {
   depends_on = [
-    helm_release.argo_cd
+    helm_release.argo_cd,
+    kubernetes_manifest.argo_cd_project_edge
   ]
 }

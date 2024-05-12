@@ -73,6 +73,10 @@ $ devbox run kubeconfigs
 # -----------------------------
 # time to terraform the controller
 # -----------------------------
+# because of issue: https://github.com/hashicorp/terraform-provider-kubernetes/issues/1583
+$ devbox run controller:tf init
+$ devbox run controller:tf apply -target helm_release.argo_cd
+# once the target is done, you can do:
 $ devbox run controller:tf [init apply, plan, etc]
 ```
 
