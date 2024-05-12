@@ -20,17 +20,15 @@ tasks:
   # ALLOWED
   # ---------------
 
-  controller-start:
+  k3s-start:
     cmds:
-      - cmd: mkdir -p kubeconfigs/controller
-        ignore_error: true
-      - docker compose --file=docker-compose.controller.yaml --env-file=.env up --detach
+      - docker compose --file=docker-compose.{{.CLI_ARGS}}.yaml --env-file=.env up --detach
 
-  controller-stop:
+  k3s-stop:
     cmds:
-      - docker compose --file=docker-compose.controller.yaml --env-file=.env down
+      - docker compose --file=docker-compose.{{.CLI_ARGS}}.yaml --env-file=.env down
 
-  controller-terraform:
+  terraform-controller:
     cmds:
       - task: terraform-exec
         vars:

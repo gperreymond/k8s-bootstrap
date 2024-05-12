@@ -14,6 +14,39 @@ resource "helm_release" "argo_cd" {
   ]
 }
 
+resource "kubernetes_manifest" "argo_cd_project_workers" {
+  manifest = yamldecode(<<YAML
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workers
+  namespace: ${kubernetes_namespace.argo_system.id}
+spec:
+  description: All applications to deploy in each workers
+  sourceRepos:
+    - '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  destinations:
+    - namespace: argo-system
+      server: https://kubernetes.default.svc
+      name: in-cluster
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+      name: in-cluster
+YAML
+  )
+
+  depends_on = [
+    helm_release.argo_cd,
+    kubernetes_manifest.argo_cd_project_workers
+  ]
+}
+
 resource "null_resource" "argo" {
   depends_on = [
     helm_release.argo_cd

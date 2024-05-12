@@ -3,7 +3,7 @@ services:
   controller-server:
     image: "rancher/k3s:${K3S_VERSION}"
     container_name: controller-server
-    command: 'server --disable-helm-controller --disable=traefik --disable=servicelb --bind-address=172.29.0.10 --node-name=k3s-controller --node-label="pool-server=true" --node-taint=pool-server=true:NoExecute'
+    command: 'server --disable-helm-controller --disable=traefik --disable=servicelb --bind-address=172.29.0.10 --node-name=node-server --node-label="pool-server=true" --node-taint=pool-server=true:NoExecute'
     tmpfs:
       - /run
       - /var/run
@@ -20,8 +20,6 @@ services:
     - K3S_KUBECONFIG_MODE=666
     volumes:
     - k3s_controller_server:/var/lib/rancher/k3s
-    # This is just so that we get the kubeconfig file out
-    - ./.kubeconfigs/controller:/output
     networks:
       controller-network:
         ipv4_address: '172.29.0.10'
@@ -32,7 +30,7 @@ services:
   controller-agent:
     image: "rancher/k3s:${K3S_VERSION}"
     container_name: controller-agent
-    command: 'agent --node-name=k3s-agent'
+    command: 'agent --node-name=node-worker'
     depends_on:
       - 'controller-server'
     tmpfs:

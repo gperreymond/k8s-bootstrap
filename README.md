@@ -15,7 +15,7 @@ devbox shell
 
 ## General purpose
 
-This project is a POC to manage k8s at edge clusters with argo.
+This project is a POC to manage k8s at edge clusters with the couple k3s/argo.
 
 ## Commands
 
@@ -31,20 +31,41 @@ $ ./scripts/generate-token.sh
 ```txt
 K3S_VERSION="v1.29.4-k3s1"
 K3S_CONTROLLER_TOKEN="yYkWDY.cpIhCbSA9gV5FJRl"
-K3S_WORKER_TOKEN="ZZw3Xo.SIzIGQKHL8bHLs51"
+K3S_EDGE_TOKEN="ZZw3Xo.SIzIGQKHL8bHLs51"
 ```
 
 ```sh
+# -----------------------------
 # start the k8s controller cluster
+# -----------------------------
 $ devbox run controller:start
 #stop the k8s controller cluster
 $ devbox run controller:stop
 ```
 
+```sh
+# -----------------------------
+# start the k8s edge cluster
+# -----------------------------
+$ devbox run edge:start
+#stop the k8s edge cluster
+$ devbox run edge:stop
+```
+
+```
+CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                                                                      NAMES
+de7402dbd381   rancher/k3s:v1.29.4-k3s1   "/bin/k3s agent --no…"   15 seconds ago   Up 13 seconds                                                                              edge-agent
+e8b98f73c3cf   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   15 seconds ago   Up 14 seconds                                                                              edge-server
+8781698f2fdb   rancher/k3s:v1.29.4-k3s1   "/bin/k3s agent --no…"   21 seconds ago   Up 19 seconds                                                                              controller-agent
+04eb9fd9599d   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   21 seconds ago   Up 20 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   controller-server
+```
+
 ## Terraform
 
 ```sh
+# -----------------------------
 # time to terraform the controller
+# -----------------------------
 $ devbox run controller:tf [init apply, plan, etc]
 ```
 

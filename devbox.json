@@ -16,8 +16,10 @@
   "shell": {
     "init_hook": [],
     "scripts": {
-      "controller:start": ["task controller-start"],
-      "controller:stop": ["task controller-stop"],
+      "controller:start": ["task k3s-start -- controller"],
+      "controller:stop": ["task k3s-stop -- controller"],
+      "edge:start": ["task k3s-start -- edge"],
+      "edge:stop": ["task k3s-stop -- edge"],
       "controller:tf":   ["task controller-terraform -- \"$@\""]
     }
   }
