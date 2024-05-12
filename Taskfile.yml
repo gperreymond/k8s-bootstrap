@@ -28,6 +28,15 @@ tasks:
     cmds:
       - docker compose --file=docker-compose.{{.CLI_ARGS}}.yaml --env-file=.env down
 
+  kubeconfigs:
+    cmds:
+      - cmd: mkdir -p .kubeconfigs
+        ignore_error: true
+      - docker cp controller-server:/output/kubeconfig.yaml .kubeconfigs/controller.yml
+      - docker cp edge-server:/output/kubeconfig.yaml .kubeconfigs/edge.yml
+      - sed -i 's/\bdefault\b/k3s-controller/g' .kubeconfigs/controller.yml
+      - sed -i 's/\bdefault\b/k3s-edge/g' .kubeconfigs/edge.yml
+
   terraform-controller:
     cmds:
       - task: terraform-exec

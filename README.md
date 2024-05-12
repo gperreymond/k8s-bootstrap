@@ -39,7 +39,7 @@ K3S_EDGE_TOKEN="ZZw3Xo.SIzIGQKHL8bHLs51"
 # start the k8s controller cluster
 # -----------------------------
 $ devbox run controller:start
-#stop the k8s controller cluster
+# stop the k8s controller cluster
 $ devbox run controller:stop
 ```
 
@@ -48,7 +48,7 @@ $ devbox run controller:stop
 # start the k8s edge cluster
 # -----------------------------
 $ devbox run edge:start
-#stop the k8s edge cluster
+# stop the k8s edge cluster
 $ devbox run edge:stop
 ```
 
@@ -58,6 +58,13 @@ de7402dbd381   rancher/k3s:v1.29.4-k3s1   "/bin/k3s agent --no…"   15 seconds 
 e8b98f73c3cf   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   15 seconds ago   Up 14 seconds                                                                              edge-server
 8781698f2fdb   rancher/k3s:v1.29.4-k3s1   "/bin/k3s agent --no…"   21 seconds ago   Up 19 seconds                                                                              controller-agent
 04eb9fd9599d   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   21 seconds ago   Up 20 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   controller-server
+```
+
+```sh
+# -----------------------------
+# last step get the 2 kubeconfigs
+# -----------------------------
+$ devbox run kubeconfigs
 ```
 
 ## Terraform

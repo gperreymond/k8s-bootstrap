@@ -11,4 +11,4 @@ generate_token() {
     echo "${prefix}.${suffix}"
 }
 
-echo "Token généré : $(generate_token)"
+echo "Token: $(generate_token)"
