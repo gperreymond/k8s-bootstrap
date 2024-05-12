@@ -13,20 +13,39 @@ Start the devbox shell:
 devbox shell
 ```
 
+## General purpose
+
+This project is a POC to manage k8s at edge clusters with argo.
+
 ## Commands
 
 ```sh
-# create the 3 instances: k8s-controller and k8s-worker-001/k8s-worker-002
-# each instance will be a kubernetes cluster, deployed with k3d
-# k8s-controller, has argo (cd/workflows/events) and monitoring(prometheus/grafana)
-# k8s-worker-001/k8s-worker-002, have nothing, all will be deployed by argo-cd himself
-$ devbox run instances:create
-# reload instances bootstraping
-$ devbox run instances:bootstrap
-# get all kubeconfigs locally
-$ devbox run kubeconfigs
-# delete all
-$ devbox run instances:delete
+# -----------------------------
+# prepare env vars
+# -----------------------------
+# you need to generate token for k3s clusters, in our case twice
+$ ./scripts/generate-token.sh
+# create a .env file with those two tokens
+```
+
+```txt
+K3S_VERSION="v1.29.4-k3s1"
+K3S_CONTROLLER_TOKEN="yYkWDY.cpIhCbSA9gV5FJRl"
+K3S_WORKER_TOKEN="ZZw3Xo.SIzIGQKHL8bHLs51"
+```
+
+```sh
+# start the k8s controller cluster
+$ devbox run controller:start
+#stop the k8s controller cluster
+$ devbox run controller:stop
+```
+
+## Terraform
+
+```sh
+# time to terraform the controller
+$ devbox run controller:tf [init apply, plan, etc]
 ```
 
 ## Web sites

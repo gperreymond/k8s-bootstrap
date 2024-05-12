@@ -3,10 +3,6 @@ version: '3'
 
 vars:
   KUBERNETES_VERSION: '1.29.3'
-  HELM_ARGO_CD_VERSION: '6.7.13'
-  HELM_ARGO_EVENTS_VERSION: '2.4.4'
-  HELM_ARGO_WORKFLOWS_VERSION: '0.41.2'
-  HELM_ARGO_ROLLOUTS_VERSION: '2.35.1'
 
 tasks:
 
@@ -14,77 +10,28 @@ tasks:
   # INTERNALS
   # ---------------
 
-  helm-repo-update:
+  terraform-exec:
     internal: true
     cmds:
-      - helm repo add argo https://argoproj.github.io/argo-helm
-      - helm repo update
-
-  install-argo-cd:
-    sources:
-      - charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz
-      - values/argo-cd.yaml
-    cmds:
-      - helm pull argo/argo-cd --version {{.HELM_ARGO_CD_VERSION}} --destination charts
-      - helm upgrade argo-cd charts/argo-cd-{{.HELM_ARGO_CD_VERSION}}.tgz --install --namespace argo-system --values values/argo-cd.yaml
-
-  install-argo-rollouts:
-    sources:
-      - charts/argo-rollouts-{{.HELM_ARGO_ROLLOUTS_VERSION}}.tgz
-      - values/argo-rollouts.yaml
-    cmds:
-      - helm pull argo/argo-rollouts --version {{.HELM_ARGO_ROLLOUTS_VERSION}} --destination charts
-      - helm upgrade argo-rollouts charts/argo-rollouts-{{.HELM_ARGO_ROLLOUTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-rollouts.yaml
-
-
-  install-argo-events:
-    internal: true
-    sources:
-      - charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz
-      - values/argo-events.yaml
-    cmds:
-      - helm pull argo/argo-events --version {{.HELM_ARGO_EVENTS_VERSION}} --destination charts
-      - helm upgrade argo-events charts/argo-events-{{.HELM_ARGO_EVENTS_VERSION}}.tgz --install --namespace argo-system --values values/argo-events.yaml
-  
-  install-argo-workflows:
-    internal: true
-    sources:
-      - charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz
-      - values/argo-workflows.yaml
-    cmds:
-      - helm pull argo/argo-workflows --version {{.HELM_ARGO_WORKFLOWS_VERSION}} --destination charts
-      - helm upgrade argo-workflows charts/argo-workflows-{{.HELM_ARGO_WORKFLOWS_VERSION}}.tgz --install --namespace argo-system --values values/argo-workflows.yaml
+      - terraform -chdir={{.APP_MODULE_PATH}} fmt
+      - terraform -chdir={{.APP_MODULE_PATH}} {{.CLI_ARGS}}
 
   # ---------------
   # ALLOWED
   # ---------------
 
-  instances-create:
+  controller-start:
     cmds:
-      - ssh-keygen -R [127.0.0.1]:2201
-      - ssh-keygen -R [127.0.0.1]:2202
-      - ssh-keygen -R [127.0.0.1]:2203
-      - vagrant up
-      - vagrant ssh-config
-
-  instances-bootstrap:
-    cmds:
-      - vagrant provision
-
-  instances-delete:
-    cmds:
-      - vagrant destroy --force k8s-worker-001
-      - vagrant destroy --force k8s-worker-002
-      - vagrant destroy --force k8s-controller
-      - ssh-keygen -R [127.0.0.1]:2201
-      - ssh-keygen -R [127.0.0.1]:2202
-      - ssh-keygen -R [127.0.0.1]:2203
-
-  kubeconfigs:
-    cmds:
-      - cmd: rm -rf .tmp/kubeconfigs
+      - cmd: mkdir -p kubeconfigs/controller
         ignore_error: true
-      - mkdir -p .tmp/kubeconfigs
-      - vagrant ssh k8s-controller -c "k3d kubeconfig show k8s-controller" > .tmp/kubeconfigs/k8s-controller.yaml
-      - vagrant ssh k8s-worker-001 -c "k3d kubeconfig show k8s-worker-001" > .tmp/kubeconfigs/k8s-worker-001.yaml
-      - vagrant ssh k8s-worker-002 -c "k3d kubeconfig show k8s-worker-002" > .tmp/kubeconfigs/k8s-worker-002.yaml
+      - docker compose --file=docker-compose.controller.yaml --env-file=.env up --detach
+
+  controller-stop:
+    cmds:
+      - docker compose --file=docker-compose.controller.yaml --env-file=.env down
+
+  controller-terraform:
+    cmds:
+      - task: terraform-exec
+        vars:
+          APP_MODULE_PATH: "terraform/k8s-controller"

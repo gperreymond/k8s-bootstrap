@@ -1,7 +1,6 @@
-.devbox/
-.task/
-.vagrant
-.tmp
+.devbox
+.task
+.terraform
+.kubeconfigs
 
-charts/
-reports/
+.terraform.lock.hcl
