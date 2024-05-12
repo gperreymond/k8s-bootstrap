@@ -21,6 +21,8 @@ kind: AppProject
 metadata:
   name: edge
   namespace: ${kubernetes_namespace.argo_system.id}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   description: All applications to deploy in each "edge" clusters
   sourceRepos:
