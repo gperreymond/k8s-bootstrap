@@ -2,5 +2,6 @@
 .task
 .terraform
 .kubeconfigs
+.tmp
 
 .terraform.lock.hcl

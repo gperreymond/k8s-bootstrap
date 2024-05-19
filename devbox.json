@@ -11,17 +11,18 @@
     "yq@3.4.3",
     "kubecm@0.28.0",
     "terraform@1.8.2",
-    "k3s@1.29.4+k3s1"
+    "k3s@1.29.4+k3s1",
+    "argocd@2.10.9"
   ],
   "shell": {
     "init_hook": [],
     "scripts": {
       "controller:start": ["task k3s-start -- controller"],
-      "controller:stop": ["task k3s-stop -- controller"],
-      "edge:start": ["task k3s-start -- edge"],
-      "edge:stop": ["task k3s-stop -- edge"],
-      "kubeconfigs": ["task kubeconfigs"],
-      "controller:tf":   ["task terraform-controller -- \"$@\""]
+      "controller:stop":  ["task k3s-stop -- controller"],
+      "edge:start":       ["task k3s-start -- edge"],
+      "edge:stop":        ["task k3s-stop -- edge"],
+      "kubeconfigs":      ["task kubeconfigs"],
+      "controller:tf":    ["task terraform-controller -- \"$@\""]
     }
   }
 }
