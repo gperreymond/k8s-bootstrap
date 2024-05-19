@@ -21,6 +21,9 @@ resource "kubernetes_secret" "argo_cd_clusters" {
     namespace = kubernetes_namespace.argo_system.id
     labels = {
       "argocd.argoproj.io/secret-type" = "cluster"
+      "argocd-deployer-all"            = "true"
+      "argocd-deployer-name"           = each.value.clusterName
+      "argocd-deployer-type"           = each.value.clusterType
     }
   }
   type = "Opaque"

@@ -1,0 +1,55 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metrics-server
+  namespace: argo
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+          - key: iofinnet.com/argocd-deployer-all
+            operator: In
+            values:
+              - 'true'
+        values:
+          targetRevision: '${metricsServer.targetRevision}'
+          data: |-
+            clusters:
+            %{~ for item in clusters ~}
+              - 'name': '${item.clusterName}'
+            %{~ endfor ~}
+  template:
+    metadata:
+      name: '{{.name}}-metrics-server'
+      namespace: argo
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: shared
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      sources:
+        - repoURL: https://kubernetes-sigs.github.io/metrics-server
+          chart: metrics-server
+          targetRevision: '${metricsServer.targetRevision}'
+          helm:
+            releaseName: metrics-server
+            values: |
+              clusterName: {{.name}}
+              {{.values.data}}
+            valueFiles:
+              - $values/charts/metrics-server/global.yaml
+        - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: kube-system
