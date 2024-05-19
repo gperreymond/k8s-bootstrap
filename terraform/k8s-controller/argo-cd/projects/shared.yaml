@@ -1,12 +1,13 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: edge-applications
+  name: shared
   namespace: ${argo_cd_namespace}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: All applications to deploy in each "edge" clusters
+  description: All applications to deploy in each clusters
   sourceRepos:
     - '*'
   namespaceResourceWhitelist:

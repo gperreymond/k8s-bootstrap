@@ -1,13 +1,12 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: internal-applications
+  name: edge
   namespace: ${argo_cd_namespace}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: All applications to deploy in "controller" cluster only
+  description: All applications to deploy in each "edge" clusters
   sourceRepos:
     - '*'
   namespaceResourceWhitelist:
@@ -17,6 +16,6 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - namespace: kube-system
-      server: https://kubernetes.default.svc
-      name: in-cluster
+    - namespace: '*'
+      server: '*'
+      name: '*'
