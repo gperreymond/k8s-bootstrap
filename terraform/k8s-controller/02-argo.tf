@@ -10,7 +10,7 @@ resource "helm_release" "argo_cd" {
   ]
 
   depends_on = [
-    null_resource.namespaces
+    null_resource.namespaces,
   ]
 }
 
@@ -20,10 +20,10 @@ resource "kubernetes_secret" "argo_cd_clusters" {
     name      = each.value.clusterName
     namespace = kubernetes_namespace.argo_system.id
     labels = {
-      "argocd.argoproj.io/secret-type" = "cluster"
-      "argocd-deployer-all"            = "true"
-      "argocd-deployer-name"           = each.value.clusterName
-      "argocd-deployer-type"           = each.value.clusterType
+      "argocd.argoproj.io/secret-type"   = "cluster"
+      "gperreymond/argocd-deployer-all"  = "true"
+      "gperreymond/argocd-deployer-name" = each.value.clusterName
+      "gperreymond/argocd-deployer-type" = each.value.clusterType
     }
   }
   type = "Opaque"
@@ -44,7 +44,7 @@ YAML
   )
 
   depends_on = [
-    helm_release.argo_cd
+    helm_release.argo_cd,
   ]
 }
 
@@ -56,7 +56,24 @@ resource "kubernetes_manifest" "argocd_projects" {
   }))
 
   depends_on = [
-    helm_release.argo_cd
+    helm_release.argo_cd,
+  ]
+}
+
+resource "kubernetes_manifest" "argocd_applications" {
+  for_each = { for filepath in fileset("./argo-cd/applications", "*.yaml") : filepath => filepath }
+
+  manifest = yamldecode(templatefile("./argo-cd/applications/${each.key}", {
+    argo_cd_namespace = kubernetes_namespace.argo_system.id
+    clusters          = local.clusters
+    metricsServer = {
+      targetRevision = "3.12.1"
+    }
+  }))
+
+  depends_on = [
+    kubernetes_secret.argo_cd_clusters,
+    kubernetes_manifest.argocd_projects,
   ]
 }
 
@@ -64,6 +81,7 @@ resource "null_resource" "argo" {
   depends_on = [
     helm_release.argo_cd,
     kubernetes_secret.argo_cd_clusters,
-    kubernetes_manifest.argocd_projects
+    kubernetes_manifest.argocd_projects,
+    kubernetes_manifest.argocd_applications,
   ]
 }

@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: metrics-server
-  namespace: argo
+  namespace: ${argo_cd_namespace}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -13,7 +13,7 @@ spec:
     - clusters:
         selector:
           matchExpressions:
-          - key: iofinnet.com/argocd-deployer-all
+          - key: 'gperreymond/argocd-deployer-all'
             operator: In
             values:
               - 'true'
@@ -27,7 +27,7 @@ spec:
   template:
     metadata:
       name: '{{.name}}-metrics-server'
-      namespace: argo
+      namespace: ${argo_cd_namespace}
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -46,7 +46,7 @@ spec:
               clusterName: {{.name}}
               {{.values.data}}
             valueFiles:
-              - $values/charts/metrics-server/global.yaml
+              - $values/charts/remote-values/metrics-server/global.yaml
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
           targetRevision: main
           ref: values
