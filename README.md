@@ -36,7 +36,15 @@ K3S_EDGE_TOKEN="ZZw3Xo.SIzIGQKHL8bHLs51"
 
 ```sh
 # -----------------------------
-# start the k8s controller cluster
+# prepare docker network
+# -----------------------------
+# to simulate the private network
+$ docker network create --driver bridge --subnet 172.29.0.0/16 k8s-bootstrap
+```
+
+```sh
+# -----------------------------
+# k8s controller cluster
 # -----------------------------
 $ devbox run controller:start
 # stop the k8s controller cluster
@@ -45,7 +53,7 @@ $ devbox run controller:stop
 
 ```sh
 # -----------------------------
-# start the k8s edge cluster
+# k8s edge cluster
 # -----------------------------
 $ devbox run edge:start
 # stop the k8s edge cluster

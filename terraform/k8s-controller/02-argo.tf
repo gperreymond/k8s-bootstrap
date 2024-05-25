@@ -1,12 +1,14 @@
 resource "helm_release" "argo_cd" {
   name       = "argo-cd"
-  repository = "https://argoproj.github.io/argo-helm"
+  repository = "oci://ghcr.io/argoproj/argo-helm"
   chart      = "argo-cd"
   version    = local.HELM_ARGO_CD_VERSION
 
   namespace = kubernetes_namespace.argo_system.id
   values = [
-    "${file("values/argo-cd.yaml")}"
+    "${file("values/argo-cd.yaml")}", <<YAML
+clusterCredentials: []
+YAML
   ]
 
   depends_on = [
@@ -33,6 +35,7 @@ name: "${each.value.clusterName}"
 server: "${each.value.cluster.server}"
 config: |
   {
+    "username": "${each.value.userName}",
     "tlsClientConfig": {
       "insecure": false,
       "caData": "${each.value.cluster["certificate-authority-data"]}",

@@ -3,7 +3,7 @@ services:
   edge-server:
     image: "rancher/k3s:${K3S_VERSION}"
     container_name: edge-server
-    command: 'server --disable-helm-controller --disable=traefik --disable=servicelb --bind-address=172.39.0.10 --node-name=node-server --node-label="pool-server=true" --node-taint=pool-server=true:NoExecute'
+    command: 'server --disable-helm-controller --disable=traefik --disable=servicelb --bind-address=172.29.1.10 --node-name=node-server --node-label="pool-server=true" --node-taint=pool-server=true:NoExecute'
     tmpfs:
       - /run
       - /var/run
@@ -21,8 +21,8 @@ services:
     volumes:
     - k3s_edge_server:/var/lib/rancher/k3s
     networks:
-      edge-network:
-        ipv4_address: '172.39.0.10'
+      k8s-bootstrap:
+        ipv4_address: '172.29.1.10'
 
   edge-agent:
     image: "rancher/k3s:${K3S_VERSION}"
@@ -46,15 +46,12 @@ services:
     volumes:
       - k3s_edge_agent:/var/lib/rancher/k3s
     networks:
-      edge-network:
-        ipv4_address: '172.39.0.20'
+      k8s-bootstrap:
+        ipv4_address: '172.29.1.20'
 
 networks:
-  edge-network:
-    ipam:
-      driver: default
-      config:
-        - subnet: '172.39.0.0/16'
+  k8s-bootstrap:
+    external: true
   
 volumes:
   k3s_edge_server: {}

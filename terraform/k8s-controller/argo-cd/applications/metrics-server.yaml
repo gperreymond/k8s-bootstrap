@@ -19,14 +19,10 @@ spec:
               - 'true'
         values:
           targetRevision: '${metricsServer.targetRevision}'
-          data: |-
-            clusters:
-            %{~ for item in clusters ~}
-              - 'name': '${item.clusterName}'
-            %{~ endfor ~}
+          clusterName: '{{ index .metadata.labels "gperreymond/argocd-deployer-name" }}'
   template:
     metadata:
-      name: '{{.name}}-metrics-server'
+      name: '{{ .name }}-metrics-server'
       namespace: ${argo_cd_namespace}
       finalizers:
         - resources-finalizer.argocd.argoproj.io
@@ -36,20 +32,21 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
       sources:
         - repoURL: https://kubernetes-sigs.github.io/metrics-server
           chart: metrics-server
-          targetRevision: '${metricsServer.targetRevision}'
+          targetRevision: '{{ .values.targetRevision }}'
           helm:
             releaseName: metrics-server
             values: |
-              clusterName: {{.name}}
-              {{.values.data}}
+              clusterName: {{ .values.clusterName }}
             valueFiles:
               - $values/charts/remote-values/metrics-server/global.yaml
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
           targetRevision: main
           ref: values
       destination:
-        server: '{{.server}}'
+        server: '{{ .server }}'
         namespace: kube-system

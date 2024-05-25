@@ -21,7 +21,7 @@ services:
     volumes:
     - k3s_controller_server:/var/lib/rancher/k3s
     networks:
-      controller-network:
+      k8s-bootstrap:
         ipv4_address: '172.29.0.10'
     ports:
       - 80:80
@@ -49,15 +49,12 @@ services:
     volumes:
       - k3s_controller_agent:/var/lib/rancher/k3s
     networks:
-      controller-network:
+      k8s-bootstrap:
         ipv4_address: '172.29.0.20'
 
 networks:
-  controller-network:
-    ipam:
-      driver: default
-      config:
-        - subnet: '172.29.0.0/16'
+  k8s-bootstrap:
+    external: true
   
 volumes:
   k3s_controller_server: {}
