@@ -1,5 +1,7 @@
 defaults:
   global:
+    logAsJson: true
+    configValidation: false
     defaultResources:
       requests:
         cpu: 10m
