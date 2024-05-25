@@ -12,7 +12,8 @@
     "kubecm@0.28.0",
     "terraform@1.8.2",
     "k3s@1.29.4+k3s1",
-    "argocd@2.10.9"
+    "argocd@2.10.9",
+    "istioctl@1.22.0"
   ],
   "shell": {
     "init_hook": [],

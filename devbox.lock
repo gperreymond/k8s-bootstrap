@@ -97,6 +97,54 @@
         }
       }
     },
+    "istioctl@1.22.0": {
+      "last_modified": "2024-05-15T12:04:30Z",
+      "resolved": "github:NixOS/nixpkgs/b3fcfcfabd01b947a1e4f36622bbffa3985bdac6#istioctl",
+      "source": "devbox-search",
+      "version": "1.22.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2lx6wpw870z3wcn8zn5n99dhhqfw5xkn-istioctl-1.22.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2lx6wpw870z3wcn8zn5n99dhhqfw5xkn-istioctl-1.22.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0bd5ck5qanwv8516bqfriplwhz2mgafa-istioctl-1.22.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0bd5ck5qanwv8516bqfriplwhz2mgafa-istioctl-1.22.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2n6cvq50lk64icv1s7cjhxjmi7cy31di-istioctl-1.22.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2n6cvq50lk64icv1s7cjhxjmi7cy31di-istioctl-1.22.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/b4i6a57jz4ch56sdnkaz3j9sc2z0nxad-istioctl-1.22.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/b4i6a57jz4ch56sdnkaz3j9sc2z0nxad-istioctl-1.22.0"
+        }
+      }
+    },
     "jq@1.7.1": {
       "last_modified": "2024-05-06T15:07:38Z",
       "resolved": "github:NixOS/nixpkgs/860e65d27036476edfb85dd847d982277880b143#jq",

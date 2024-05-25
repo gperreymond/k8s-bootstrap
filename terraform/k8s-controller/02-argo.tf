@@ -72,6 +72,9 @@ resource "kubernetes_manifest" "argocd_applications" {
     metricsServer = {
       targetRevision = "3.12.1"
     }
+    istio = {
+      targetRevision = "1.22.0"
+    }
   }))
 
   depends_on = [
