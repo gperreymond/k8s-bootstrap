@@ -41,6 +41,21 @@ spec:
           targetRevision: '{{ .values.targetRevision }}'
           helm:
             releaseName: istio-base
+        - repoURL: https://istio-release.storage.googleapis.com/charts
+          chart: istiod
+          targetRevision: '{{ .values.targetRevision }}'
+          helm:
+            releaseName: istiod
+            values: |
+              defaults:
+                global:
+                  meshID: 'global-mesh'
+                  multiCluster:
+                    enabled: true
+                    clusterName: '{{ .values.clusterName }}'
+                  network: 'global-network'
+            valueFiles:
+              - $values/charts/remote-values/istiod/global.yaml
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
           targetRevision: main
           ref: values
