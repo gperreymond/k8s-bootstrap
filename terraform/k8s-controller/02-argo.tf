@@ -72,6 +72,9 @@ resource "kubernetes_manifest" "argocd_applications" {
     metricsServer = {
       targetRevision = "3.12.1"
     }
+    prometheus = {
+      targetRevision = "25.21.0"
+    }
   }))
 
   depends_on = [
