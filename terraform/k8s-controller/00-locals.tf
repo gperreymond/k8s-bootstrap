@@ -1,5 +1,5 @@
 locals {
-  HELM_ARGO_CD_VERSION        = "6.11.1"
+  HELM_ARGO_CD_VERSION        = "7.1.2"
   HELM_ARGO_EVENTS_VERSION    = "2.4.5"
   HELM_ARGO_WORKFLOWS_VERSION = "0.41.6"
   cluster_sources             = { for filename in fileset("../../.kubeconfigs", "*.yaml") : filename => yamldecode(file("../../.kubeconfigs/${filename}")) }

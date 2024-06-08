@@ -75,14 +75,7 @@ e8b98f73c3cf   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   15 seconds 
 $ devbox run kubeconfigs
 ```
 
-## Istio multi clusters
-
-```sh
-$ istioctl install -y --kubeconfig .kubeconfigs/controller.yaml --filename istio/controller.yaml
-$ istioctl install -y --kubeconfig .kubeconfigs/edge.yaml --filename istio/edge.yaml
-```
-
-## Terraform
+s## Terraform
 
 ```sh
 # -----------------------------
