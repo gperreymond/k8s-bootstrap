@@ -12,9 +12,10 @@ tasks:
 
   terraform-exec:
     internal: true
+    dir: '{{.APP_MODULE_PATH}}'
     cmds:
-      - terraform -chdir={{.APP_MODULE_PATH}} fmt
-      - terraform -chdir={{.APP_MODULE_PATH}} {{.CLI_ARGS}}
+      - terraform fmt
+      - terraform {{.CLI_ARGS}}
 
   # ---------------
   # ALLOWED
@@ -42,3 +43,9 @@ tasks:
       - task: terraform-exec
         vars:
           APP_MODULE_PATH: "terraform/k8s-controller"
+
+  terraform-edge:
+    cmds:
+      - task: terraform-exec
+        vars:
+          APP_MODULE_PATH: "terraform/k8s-edge"

@@ -23,7 +23,8 @@
       "edge:start":       ["task k3s-start -- edge"],
       "edge:stop":        ["task k3s-stop -- edge"],
       "kubeconfigs":      ["task kubeconfigs"],
-      "controller:tf":    ["task terraform-controller -- \"$@\""]
+      "controller:tf":    ["task terraform-controller -- \"$@\""],
+      "edge:tf":          ["task terraform-edge -- \"$@\""]
     }
   }
 }

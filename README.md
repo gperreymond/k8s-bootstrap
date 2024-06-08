@@ -79,6 +79,10 @@ s## Terraform
 
 ```sh
 # -----------------------------
+# time to terraform the edge
+# -----------------------------
+$ devbox run edge:tf [init apply, plan, etc]
+# -----------------------------
 # time to terraform the controller
 # -----------------------------
 # because of issue: https://github.com/hashicorp/terraform-provider-kubernetes/issues/1583
