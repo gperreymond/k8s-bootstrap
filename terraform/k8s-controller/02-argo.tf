@@ -68,6 +68,7 @@ resource "kubernetes_manifest" "argocd_applications" {
 
   manifest = yamldecode(templatefile("./argo-cd/applications/${each.key}", {
     argo_cd_namespace = kubernetes_namespace.argo_system.id
+    prometheus_namespace = kubernetes_namespace.monitoring_system.id
     clusters          = local.clusters
     metricsServer = {
       targetRevision = "3.12.1"
