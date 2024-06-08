@@ -40,12 +40,3 @@ prometheus-pushgateway:
 
 alertmanager:
   enabled: false
-
-# serverFiles:
-#   'prometheus.yml':
-#     rule_files:
-#       - /etc/config/alerting_rules.yml
-#       - /etc/config/global_alerting_rules.yml
-#       - /etc/config/global_kubernetes_alerting_rules.yml
-#       - /etc/config/global_prometheus_alerting_rules.yml
-#       - /etc/config/global_others_alerting_rules.yml

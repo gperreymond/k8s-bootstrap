@@ -67,9 +67,9 @@ resource "kubernetes_manifest" "argocd_applications" {
   for_each = { for filepath in fileset("./argo-cd/applications", "*.yaml") : filepath => filepath }
 
   manifest = yamldecode(templatefile("./argo-cd/applications/${each.key}", {
-    argo_cd_namespace = kubernetes_namespace.argo_system.id
+    argo_cd_namespace    = kubernetes_namespace.argo_system.id
     prometheus_namespace = kubernetes_namespace.monitoring_system.id
-    clusters          = local.clusters
+    clusters             = local.clusters
     metricsServer = {
       targetRevision = "3.12.1"
     }
@@ -79,6 +79,7 @@ resource "kubernetes_manifest" "argocd_applications" {
   }))
 
   depends_on = [
+    helm_release.argo_cd,
     kubernetes_secret.argo_cd_clusters,
     kubernetes_manifest.argocd_projects,
   ]
