@@ -15,7 +15,8 @@ devbox shell
 
 ## General purpose
 
-This project is a POC to manage k8s at edge clusters with the couple k3s/argo.
+* This project is a POC to manage k8s at edge clusters with the couple k3s/argo.
+* Kuma is used for the mesh network.
 
 ## Commands
 
@@ -75,7 +76,7 @@ e8b98f73c3cf   rancher/k3s:v1.29.4-k3s1   "/bin/k3s server --d…"   15 seconds 
 $ devbox run kubeconfigs
 ```
 
-s## Terraform
+## Terraform
 
 ```sh
 # -----------------------------
