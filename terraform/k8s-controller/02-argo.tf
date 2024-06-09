@@ -67,10 +67,10 @@ resource "kubernetes_manifest" "argocd_applications" {
   for_each = { for filepath in fileset("./argo-cd/applications", "*.yaml") : filepath => filepath }
 
   manifest = yamldecode(templatefile("./argo-cd/applications/${each.key}", {
-    argo_cd_namespace    = kubernetes_namespace.argo_system.id
-    prometheus_namespace = kubernetes_namespace.monitoring_system.id
-    stakater_reloader    = kubernetes_namespace.monitoring_system.id
-    clusters             = local.clusters
+    argo_cd_namespace           = kubernetes_namespace.argo_system.id
+    prometheus_namespace        = kubernetes_namespace.monitoring_system.id
+    stakater_reloader_namespace = kubernetes_namespace.monitoring_system.id
+    clusters                    = local.clusters
     metricsServer = {
       targetRevision = "3.12.1"
     }
@@ -78,7 +78,7 @@ resource "kubernetes_manifest" "argocd_applications" {
       targetRevision = "25.21.0"
     }
     stakaterReloader = {
-      targetRevision = "1.0.104"
+      targetRevision = "1.0.105"
     }
   }))
 
