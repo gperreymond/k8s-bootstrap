@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: thanos-sidecar-pvc
+  name: thanos-sidecar
 spec:
   accessModes:
     - ReadWriteOnce
