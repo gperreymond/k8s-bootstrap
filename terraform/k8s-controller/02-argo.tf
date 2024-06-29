@@ -75,10 +75,10 @@ resource "kubernetes_manifest" "argocd_applications" {
       targetRevision = "3.12.1"
     }
     prometheus = {
-      targetRevision = "25.21.0"
+      targetRevision = "25.22.0"
     }
     stakaterReloader = {
-      targetRevision = "1.0.105"
+      targetRevision = "1.0.114"
     }
   }))
 

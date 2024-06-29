@@ -3,6 +3,46 @@ server:
     storage.tsdb.max-block-duration: 2h
     storage.tsdb.min-block-duration: 2h
     web.enable-remote-write-receiver: null
+  server: 
+    extraVolumes:
+      - name: thanos-sidecar-volume
+        persistentVolumeClaim:
+          claimName: thanos-sidecar-data
+    additionalPorts:
+      - name: thanos-sidecar-grpc
+        port: 10901
+        targetPort: 10901
+      - name: thanos-sidecar-http
+        port: 10902
+        targetPort: 10902
+  sidecarContainers:
+    thanosSidear:
+      name: thanos-sidecar
+      image: 'quay.io/thanos/thanos:v0.35.1'
+      args:
+        - 'sidecar'
+        - '--log.format=json'
+        - '--tsdb.path=/data'
+        - '--prometheus.url=http://localhost:9090'
+        - '--shipper.upload-compacted'
+        - |
+            --objstore.config=type: FILESYSTEM
+            config:
+              directory: "/store/data"
+      volumeMounts:
+        - name: storage-volume
+          mountPath: /data
+        - name: thanos-sidecar-volume
+          mountPath: /store/data
+      ports:
+        - containerPort: 10901
+        - containerPort: 10902
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          memory: 512Mi
   retention: 6h
   retentionSize: 4GB
   persistentVolume:
