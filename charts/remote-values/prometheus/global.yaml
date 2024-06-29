@@ -3,18 +3,17 @@ server:
     storage.tsdb.max-block-duration: 2h
     storage.tsdb.min-block-duration: 2h
     web.enable-remote-write-receiver: null
-  server: 
-    extraVolumes:
-      - name: thanos-sidecar-volume
-        persistentVolumeClaim:
-          claimName: thanos-sidecar
-    additionalPorts:
-      - name: thanos-sidecar-grpc
-        port: 10901
-        targetPort: 10901
-      - name: thanos-sidecar-http
-        port: 10902
-        targetPort: 10902
+  extraVolumes:
+    - name: thanos-sidecar-volume
+      persistentVolumeClaim:
+        claimName: thanos-sidecar
+  additionalPorts:
+    - name: thanos-sidecar-grpc
+      port: 10901
+      targetPort: 10901
+    - name: thanos-sidecar-http
+      port: 10902
+      targetPort: 10902
   sidecarContainers:
     thanosSidear:
       name: thanos-sidecar
