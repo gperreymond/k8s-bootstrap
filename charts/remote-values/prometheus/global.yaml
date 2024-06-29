@@ -6,8 +6,10 @@ server:
   server: 
     extraVolumes:
       - name: thanos-sidecar-volume
-        persistentVolumeClaim:
-          claimName: thanos-sidecar-data
+        capacity:
+          storage: 20Gi
+        accessModes:
+        - ReadWriteOnce
     additionalPorts:
       - name: thanos-sidecar-grpc
         port: 10901
