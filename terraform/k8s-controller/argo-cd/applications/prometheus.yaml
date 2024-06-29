@@ -35,6 +35,11 @@ spec:
         syncOptions:
           - ServerSideApply=true
       sources:
+        - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
+          targetRevision: main
+          path: charts/remote-applications/prometheus-resources
+          helm:
+            releaseName: prometheus-resources
         - repoURL: https://prometheus-community.github.io/helm-charts
           chart: prometheus
           targetRevision: '{{ .values.targetRevision }}'

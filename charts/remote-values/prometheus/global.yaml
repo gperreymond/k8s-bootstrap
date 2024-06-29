@@ -3,7 +3,11 @@ server:
     storage.tsdb.max-block-duration: 2h
     storage.tsdb.min-block-duration: 2h
     web.enable-remote-write-receiver: null
-  server:
+  server: 
+    extraVolumes:
+      - name: thanos-sidecar-volume
+        persistentVolumeClaim:
+          claimName: thanos-sidecar-pvc
     additionalPorts:
       - name: thanos-sidecar-grpc
         port: 10901
