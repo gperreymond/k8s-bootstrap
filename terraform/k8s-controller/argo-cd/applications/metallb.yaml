@@ -1,0 +1,50 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metallb
+  namespace: ${argo_cd_namespace}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+          - key: 'gperreymond/argocd-deployer-all'
+            operator: In
+            values:
+              - 'true'
+        values:
+          targetRevision: '${metallb.targetRevision}'
+          clusterName: '{{ index .metadata.labels "gperreymond/argocd-deployer-name" }}'
+  template:
+    metadata:
+      name: '{{ .name }}-metallb'
+      namespace: ${argo_cd_namespace}
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: shared
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+      sources:
+        - repoURL: https://metallb.github.io/metallb
+          chart: metallb
+          targetRevision: '{{ .values.targetRevision }}'
+          helm:
+            releaseName: metallb
+            valueFiles:
+              - $values/charts/remote-values/metallb/global.yaml
+        - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{ .server }}'
+        namespace: ${metallb_namespace}

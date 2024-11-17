@@ -71,6 +71,7 @@ resource "kubernetes_manifest" "argocd_applications" {
     prometheus_namespace        = kubernetes_namespace.monitoring_system.id
     stakater_reloader_namespace = "kube-public"
     traefik_namespace           = kubernetes_namespace.traefik_system.id
+    metallb_namespace = "kube-system"
     clusters                    = local.clusters
     prometheus = {
       targetRevision = "25.30.1"
@@ -80,6 +81,9 @@ resource "kubernetes_manifest" "argocd_applications" {
     }
     traefik = {
       targetRevision = "33.0.0"
+    }
+    metallb = {
+      targetRevision = "0.14.8"
     }
   }))
 
