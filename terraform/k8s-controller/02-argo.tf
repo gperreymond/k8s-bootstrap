@@ -70,7 +70,7 @@ resource "kubernetes_manifest" "argocd_applications" {
     argo_cd_namespace           = kubernetes_namespace.argo_system.id
     prometheus_namespace        = kubernetes_namespace.monitoring_system.id
     stakater_reloader_namespace = "kube-public"
-    traefik_namespace        = kubernetes_namespace.traefik_system.id
+    traefik_namespace           = kubernetes_namespace.traefik_system.id
     clusters                    = local.clusters
     prometheus = {
       targetRevision = "25.30.1"
