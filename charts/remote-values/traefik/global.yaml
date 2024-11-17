@@ -1,3 +1,5 @@
+hostNetwork: true
+
 service:
   enabled: true
   single: true
