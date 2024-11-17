@@ -1,0 +1,4 @@
+reloader:
+  deployment:
+    gomaxprocsOverride: '0'
+    gomemlimitOverride: '0'
