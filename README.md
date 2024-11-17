@@ -16,7 +16,7 @@ devbox shell
 ## General purpose
 
 * This project is a POC to manage k8s at edge clusters with the couple k3s/argo.
-* Kuma is used for the mesh network.
+* Nomad server is installed as statefullset.
 
 ## Commands
 
@@ -82,7 +82,8 @@ $ devbox run kubeconfigs
 # -----------------------------
 # time to terraform the edge
 # -----------------------------
-$ devbox run edge:tf [init apply, plan, etc]
+$ devbox run edge:tf init
+$ devbox run edge:tf apply
 # -----------------------------
 # time to terraform the controller
 # -----------------------------
@@ -98,6 +99,5 @@ $ devbox run controller:tf [init apply, plan, etc]
 * https://traefik.docker.localhost/dashboard/#/
 * https://argo-cd.docker.localhost/
 * https://argo-workflows.docker.localhost/
-* https://argo-rollouts.docker.localhost/rollouts/
 * https://prometheus.docker.localhost/
 * https://grafana.docker.localhost/

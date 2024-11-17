@@ -71,14 +71,11 @@ resource "kubernetes_manifest" "argocd_applications" {
     prometheus_namespace        = kubernetes_namespace.monitoring_system.id
     stakater_reloader_namespace = kubernetes_namespace.monitoring_system.id
     clusters                    = local.clusters
-    metricsServer = {
-      targetRevision = "3.12.1"
-    }
     prometheus = {
-      targetRevision = "25.22.0"
+      targetRevision = "25.30.1"
     }
     stakaterReloader = {
-      targetRevision = "1.0.114"
+      targetRevision = "1.1.0"
     }
   }))
 
