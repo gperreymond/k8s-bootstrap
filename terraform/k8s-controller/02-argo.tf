@@ -69,13 +69,17 @@ resource "kubernetes_manifest" "argocd_applications" {
   manifest = yamldecode(templatefile("./argo-cd/applications/${each.key}", {
     argo_cd_namespace           = kubernetes_namespace.argo_system.id
     prometheus_namespace        = kubernetes_namespace.monitoring_system.id
-    stakater_reloader_namespace = kubernetes_namespace.monitoring_system.id
+    stakater_reloader_namespace = "kube-public"
+    traefik_namespace        = kubernetes_namespace.traefik_system.id
     clusters                    = local.clusters
     prometheus = {
       targetRevision = "25.30.1"
     }
     stakaterReloader = {
       targetRevision = "1.1.0"
+    }
+    traefik = {
+      targetRevision = "33.0.0"
     }
   }))
 
