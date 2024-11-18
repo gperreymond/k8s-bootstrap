@@ -19,7 +19,6 @@ spec:
               - 'true'
         values:
           targetRevision: '${metallb.targetRevision}'
-          clusterName: '{{ index .metadata.labels "gperreymond/argocd-deployer-name" }}'
   template:
     metadata:
       name: '{{ .name }}-metallb'

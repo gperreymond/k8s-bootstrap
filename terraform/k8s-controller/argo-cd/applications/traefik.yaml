@@ -19,7 +19,7 @@ spec:
               - 'true'
         values:
           targetRevision: '${traefik.targetRevision}'
-          clusterName: '{{ index .metadata.labels "gperreymond/argocd-deployer-name" }}'
+          loadBalancerIP: '{{ index .metadata.labels "gperreymond/loadBalancer-ip" }}'
   template:
     metadata:
       name: '{{ .name }}-traefik'
@@ -40,6 +40,10 @@ spec:
           targetRevision: '{{ .values.targetRevision }}'
           helm:
             releaseName: traefik
+            values: |
+              service:
+                annotations:
+                  metallb.universe.tf/loadBalancerIPs: '{{ .values.loadBalancerIP }}'
             valueFiles:
               - $values/charts/remote-values/traefik/global.yaml
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'

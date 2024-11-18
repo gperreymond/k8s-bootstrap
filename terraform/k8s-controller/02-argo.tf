@@ -26,6 +26,7 @@ resource "kubernetes_secret" "argo_cd_clusters" {
       "gperreymond/argocd-deployer-all"  = "true"
       "gperreymond/argocd-deployer-name" = each.value.clusterName
       "gperreymond/argocd-deployer-type" = each.value.clusterType
+      "gperreymond/loadBalancer-ip"      = each.value.loadBalancerIP
     }
   }
   type = "Opaque"
@@ -71,7 +72,7 @@ resource "kubernetes_manifest" "argocd_applications" {
     prometheus_namespace        = kubernetes_namespace.monitoring_system.id
     stakater_reloader_namespace = "kube-public"
     traefik_namespace           = kubernetes_namespace.traefik_system.id
-    metallb_namespace = "kube-system"
+    metallb_namespace           = "kube-system"
     clusters                    = local.clusters
     prometheus = {
       targetRevision = "25.30.1"

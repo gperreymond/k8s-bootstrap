@@ -2,3 +2,5 @@ service:
   enabled: true
   single: true
   type: LoadBalancer
+  spec:
+    externalTrafficPolicy: Local
