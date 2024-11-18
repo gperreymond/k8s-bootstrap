@@ -1,0 +1,2 @@
+metallb:
+  loadBalancerIP: 'TO_SET'

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: metallb
+  name: cluster-resources
   namespace: ${argo_cd_namespace}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -18,10 +18,11 @@ spec:
             values:
               - 'true'
         values:
-          targetRevision: '${metallb.targetRevision}'
+          targetRevision: '${clusterResources.targetRevision}'
+          loadBalancerIP: '{{ index .metadata.labels "gperreymond/loadBalancer-ip" }}'
   template:
     metadata:
-      name: '{{ .name }}-metallb'
+      name: '{{ .name }}-cluster-resources'
       namespace: ${argo_cd_namespace}
       finalizers:
         - resources-finalizer.argocd.argoproj.io
@@ -34,16 +35,15 @@ spec:
         syncOptions:
           - ServerSideApply=true
       sources:
-        - repoURL: https://metallb.github.io/metallb
-          chart: metallb
+        - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
           targetRevision: '{{ .values.targetRevision }}'
           helm:
-            releaseName: metallb
+            releaseName: cluster-resources
+            values: |
+              metallb:
+                loadBalancerIP: '{{ .values.loadBalancerIP }}'
             valueFiles:
               - $values/charts/remote-values/metallb/global.yaml
-        - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
-          targetRevision: main
-          ref: values
       destination:
         server: '{{ .server }}'
-        namespace: ${metallb_namespace}
+        namespace: 'default'

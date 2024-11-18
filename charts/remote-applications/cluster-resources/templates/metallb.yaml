@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   addresses:
-    - '{{ .Values.loadBalancerIP }}/32'
+    - '{{ .Values.metallb.loadBalancerIP }}/32'
 
 ---
 apiVersion: metallb.io/v1beta1
