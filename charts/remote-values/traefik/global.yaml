@@ -2,5 +2,7 @@ service:
   enabled: true
   single: true
   type: LoadBalancer
+  annotations:
+    metallb.universe.tf/address-pool: traefik-pool
   spec:
     externalTrafficPolicy: Local
