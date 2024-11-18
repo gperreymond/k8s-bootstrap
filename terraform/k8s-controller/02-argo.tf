@@ -73,6 +73,7 @@ resource "kubernetes_manifest" "argocd_applications" {
     stakater_reloader_namespace = "kube-public"
     traefik_namespace           = kubernetes_namespace.traefik_system.id
     metallb_namespace           = "kube-system"
+    cluster_resources_namespace = "default"
     clusters                    = local.clusters
     clusterResources = {
       targetRevision = "main"

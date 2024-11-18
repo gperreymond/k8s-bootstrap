@@ -37,13 +37,12 @@ spec:
       sources:
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'
           targetRevision: '{{ .values.targetRevision }}'
+          path: 'charts/remote-applications/cluster-resources'
           helm:
             releaseName: cluster-resources
             values: |
               metallb:
                 loadBalancerIP: '{{ .values.loadBalancerIP }}'
-            valueFiles:
-              - $values/charts/remote-values/metallb/global.yaml
       destination:
         server: '{{ .server }}'
-        namespace: 'default'
+        namespace: '${cluster_resources_namespace}'
