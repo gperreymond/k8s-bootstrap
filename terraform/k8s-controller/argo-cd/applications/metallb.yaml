@@ -19,6 +19,7 @@ spec:
               - 'true'
         values:
           targetRevision: '${metallb.targetRevision}'
+          loadBalancerIP: '{{ index .metadata.labels "gperreymond/loadBalancer-ip" }}'
   template:
     metadata:
       name: '{{ .name }}-metallb'
@@ -39,6 +40,8 @@ spec:
           targetRevision: '{{ .values.targetRevision }}'
           helm:
             releaseName: metallb
+            values: |
+              loadBalancerIP: '{{ .values.loadBalancerIP }}'
             valueFiles:
               - $values/charts/remote-values/metallb/global.yaml
         - repoURL: 'https://github.com/gperreymond/k8s-bootstrap.git'

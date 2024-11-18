@@ -91,13 +91,17 @@ $ devbox run edge:tf apply
 $ devbox run controller:tf init
 $ devbox run controller:tf apply -target helm_release.argo_cd
 # once the target is done, you can do:
-$ devbox run controller:tf [init apply, plan, etc]
+$ devbox run controller:tf apply
 ```
 
-## Web sites
+## Local URLs
 
 * https://traefik.docker.localhost/dashboard/#/
 * https://argo-cd.docker.localhost/
 * https://argo-workflows.docker.localhost/
 * https://prometheus.docker.localhost/
 * https://grafana.docker.localhost/
+
+# Documentations
+
+* https://blog.mossroy.fr/2024/04/16/passage-sur-metallb-au-lieu-de-servicelb-sur-un-cluster-k3s
