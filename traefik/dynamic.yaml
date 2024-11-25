@@ -1,0 +1,13 @@
+http:
+  routers:
+    argo-cd:
+      rule: "Host(`argo-cd.docker.localhost`)"
+      service: 'argo-cd'
+      entryPoints:
+        - 'web'
+
+  services:
+    argo-cd:
+      loadBalancer:
+        servers:
+          - url: 'http://172.29.2.100:80'

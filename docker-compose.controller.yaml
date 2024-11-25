@@ -23,9 +23,6 @@ services:
     networks:
       k8s-bootstrap:
         ipv4_address: '172.29.0.10'
-    ports:
-      - 80:80
-      - 443:443
 
   controller-agent:
     image: "rancher/k3s:${K3S_VERSION}"

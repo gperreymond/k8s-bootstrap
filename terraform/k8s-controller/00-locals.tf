@@ -6,7 +6,7 @@ locals {
   clusters = { for key, value in local.cluster_sources : value.clusters[0].name => {
     clusterName    = value.clusters[0].name
     clusterType    = value.clusters[0].name == "k3s-controller" ? "controller" : "edge"
-    loadBalancerIP = value.clusters[0].name == "k3s-controller" ? "192.168.1.200" : "192.168.1.201"
+    loadBalancerIP = value.clusters[0].name == "k3s-controller" ? "172.29.2.100" : "172.29.2.200"
     userName       = value.users[0].name
     user           = value.users[0].user
     cluster        = value.clusters[0].cluster
