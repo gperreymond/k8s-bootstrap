@@ -39,6 +39,7 @@ spec:
           selfHeal: true
         syncOptions:
           - ServerSideApply=true
+          - RespectIgnoreDifferences=true
       sources:
         - repoURL: https://metallb.github.io/metallb
           chart: metallb
