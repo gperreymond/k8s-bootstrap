@@ -8,7 +8,7 @@ ports:
 
 ingressRoute:
   dashboard:
-    enabled: true
+    enabled: false
 
 service:
   enabled: true
