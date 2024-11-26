@@ -41,6 +41,7 @@ spec:
           helm:
             releaseName: cluster-resources
             values: |
+              clusterName: '{{ .name }}'
               metallb:
                 loadBalancerIP: '{{ .values.loadBalancerIP }}'
       destination:

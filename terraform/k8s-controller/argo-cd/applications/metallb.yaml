@@ -27,6 +27,12 @@ spec:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: shared
+      ignoreDifferences:
+        - group: ""
+          kind: CustomResourceDefinition
+          name: 'bgppeers.metallb.io'
+          jsonPointers:
+            - /spec/conversion/webhook/clientConfig/caBundle
       syncPolicy:
         automated:
           prune: true

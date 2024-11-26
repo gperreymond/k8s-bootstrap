@@ -1,2 +1,3 @@
+clusterName: 'TO_SET'
 metallb:
   loadBalancerIP: 'TO_SET'

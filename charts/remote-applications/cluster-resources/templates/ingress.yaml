@@ -1,0 +1,30 @@
+{{- if eq .Values.clusterName "k3s-controller" }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-http
+  namespace: traefik-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`argo-cd.docker.localhost`)
+      priority: 10
+      services:
+        - kind: Service
+          name: argo-cd-argocd-server
+          namespace: argo-system
+          port: 80
+    - kind: Rule
+      match: >-
+        Host(`argo-cd.docker.localhost`) &&
+        Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - kind: Service
+          name: argo-cd-argocd-server
+          namespace: argo-system
+          port: 80
+          scheme: h2c
+{{- end }}
