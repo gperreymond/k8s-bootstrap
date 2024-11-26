@@ -45,6 +45,15 @@ $ docker network create --driver bridge --subnet 172.29.0.0/16 k8s-bootstrap
 
 ```sh
 # -----------------------------
+# local load balancer
+# -----------------------------
+$ devbox run lb:start
+# stop the local load balancer
+$ devbox run lb:stop
+```
+
+```sh
+# -----------------------------
 # k8s controller cluster
 # -----------------------------
 $ devbox run controller:start
@@ -96,11 +105,11 @@ $ devbox run controller:tf apply
 
 ## Local URLs
 
-* https://traefik.docker.localhost/dashboard/#/
-* https://argo-cd.docker.localhost/
-* https://argo-workflows.docker.localhost/
-* https://prometheus.docker.localhost/
-* https://grafana.docker.localhost/
+* http://localhost:8000/dashboard/
+* http://argo-cd.docker.localhost/
+* http://argo-workflows.docker.localhost/
+* http://prometheus.docker.localhost/
+* http://grafana.docker.localhost/
 
 # Documentations
 
