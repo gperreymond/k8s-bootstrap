@@ -5,9 +5,18 @@ http:
       service: 'argo-cd'
       entryPoints:
         - 'web'
+    k3s-controller-prometheus:
+      rule: "Host(`k3s-controller.prometheus.docker.localhost`)"
+      service: 'k3s-controller-prometheus'
+      entryPoints:
+        - 'web'
 
   services:
     argo-cd:
+      loadBalancer:
+        servers:
+          - url: 'http://172.29.2.100:80'
+    k3s-controller-prometheus:
       loadBalancer:
         servers:
           - url: 'http://172.29.2.100:80'

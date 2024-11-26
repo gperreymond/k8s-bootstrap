@@ -107,9 +107,7 @@ $ devbox run controller:tf apply
 
 * http://localhost:8000/dashboard/
 * http://argo-cd.docker.localhost/
-* http://argo-workflows.docker.localhost/
-* http://prometheus.docker.localhost/
-* http://grafana.docker.localhost/
+* http://k3s-controller.prometheus.docker.localhost/
 
 # Documentations
 
