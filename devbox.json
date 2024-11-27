@@ -19,7 +19,9 @@
     "init_hook": [],
     "scripts": {
       "lb:start":         ["docker compose --file=docker-compose.load-balancer.yaml up --force-recreate --detach"],
-      "lb:stop":          ["docker compose down"],
+      "lb:stop":          ["docker compose --file=docker-compose.load-balancer.yaml down"],
+      "monitoring:start": ["docker compose --file=docker-compose.monitoring.yaml up --force-recreate --detach"],
+      "monitoring:stop":  ["docker compose --file=docker-compose.monitoring.yaml down"],
       "controller:start": ["task k3s-start -- controller"],
       "controller:stop":  ["task k3s-stop -- controller"],
       "edge:start":       ["task k3s-start -- edge"],

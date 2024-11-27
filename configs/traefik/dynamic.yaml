@@ -1,4 +1,5 @@
 http:
+
   routers:
     argo-cd:
       rule: "Host(`argo-cd.docker.localhost`)"
@@ -6,8 +7,13 @@ http:
       entryPoints:
         - 'web'
     k3s-controller-prometheus:
-      rule: "Host(`k3s-controller.prometheus.docker.localhost`)"
+      rule: Host(`k3s-controller.prometheus.docker.localhost`)
       service: 'k3s-controller-prometheus'
+      entryPoints:
+        - 'web'
+    k3s-edge-prometheus:
+      rule: "Host(`k3s-edge.prometheus.docker.localhost`)"
+      service: 'k3s-edge-prometheus'
       entryPoints:
         - 'web'
 
@@ -20,3 +26,7 @@ http:
       loadBalancer:
         servers:
           - url: 'http://172.29.2.100:80'
+    k3s-edge-prometheus:
+      loadBalancer:
+        servers:
+          - url: 'http://172.29.2.200:80'

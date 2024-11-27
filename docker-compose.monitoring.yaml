@@ -1,0 +1,23 @@
+services:
+
+  gatus:
+    image: 'twinproduction/gatus:v5.13.1'
+    container_name: 'gatus'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gatus.rule=Host(`gatus.docker.localhost`)"
+    volumes:
+      - './configs/gatus/config.yaml:/config/config.yaml:ro'
+      - 'gatus_data:/data/'
+    networks:
+      - 'k8s-bootstrap'
+    extra_hosts:
+      - "k3s-controller.prometheus.docker.localhost:172.29.2.100"
+      - "k3s-edge.prometheus.docker.localhost:172.29.2.100"
+
+volumes:
+  gatus_data: {}
+
+networks:
+  k8s-bootstrap:
+    external: true

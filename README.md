@@ -70,6 +70,15 @@ $ devbox run edge:start
 $ devbox run edge:stop
 ```
 
+```sh
+# -----------------------------
+# monitoring
+# -----------------------------
+$ devbox run monitoring:start
+# stop the monitoring
+$ devbox run monitoring:stop
+```
+
 ```
 CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                                                                      NAMES
 de7402dbd381   rancher/k3s:v1.29.4-k3s1   "/bin/k3s agent --no…"   15 seconds ago   Up 13 seconds                                                                              edge-agent
@@ -108,6 +117,7 @@ $ devbox run controller:tf apply
 * http://localhost:8000/dashboard/
 * http://argo-cd.docker.localhost/
 * http://k3s-controller.prometheus.docker.localhost/
+* http://k3s-edge.prometheus.docker.localhost/
 
 # Documentations
 

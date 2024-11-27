@@ -1,0 +1,23 @@
+metrics: true
+
+storage:
+  type: sqlite
+  path: /data/data.db
+  
+endpoints:
+  # 'k3s-controller'
+  - name: 'prometheus'
+    group: 'k3s-controller'
+    url: "http://k3s-controller.prometheus.docker.localhost/-/healthy"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 150"
+  # 'k3s-edge'
+  - name: 'prometheus'
+    group: 'k3s-edge'
+    url: "http://k3s-controller.prometheus.docker.localhost/-/healthy"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 150"
