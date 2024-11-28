@@ -121,6 +121,7 @@ $ devbox run controller:tf apply
 * http://k3s-controller.prometheus.docker.localhost/
 * http://k3s-edge.prometheus.docker.localhost/
 * http://prometheus.docker.localhost/
+* http://grafana.docker.localhost/
 
 # Documentations
 
