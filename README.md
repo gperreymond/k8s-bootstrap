@@ -20,6 +20,8 @@ devbox shell
 
 ## Commands
 
+__Warning__ follow the order!
+
 ```sh
 # -----------------------------
 # prepare env vars
@@ -54,6 +56,15 @@ $ devbox run lb:stop
 
 ```sh
 # -----------------------------
+# monitoring
+# -----------------------------
+$ devbox run monitoring:start
+# stop the monitoring
+$ devbox run monitoring:stop
+```
+
+```sh
+# -----------------------------
 # k8s controller cluster
 # -----------------------------
 $ devbox run controller:start
@@ -68,15 +79,6 @@ $ devbox run controller:stop
 $ devbox run edge:start
 # stop the k8s edge cluster
 $ devbox run edge:stop
-```
-
-```sh
-# -----------------------------
-# monitoring
-# -----------------------------
-$ devbox run monitoring:start
-# stop the monitoring
-$ devbox run monitoring:stop
 ```
 
 ```
@@ -118,6 +120,7 @@ $ devbox run controller:tf apply
 * http://argo-cd.docker.localhost/
 * http://k3s-controller.prometheus.docker.localhost/
 * http://k3s-edge.prometheus.docker.localhost/
+* http://prometheus.docker.localhost/
 
 # Documentations
 

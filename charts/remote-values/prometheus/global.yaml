@@ -16,6 +16,8 @@ server:
       memory: 1Gi
   service:
     enabled: true
+  remoteWrite:
+    - 'http://172.29.0.110:9090/api/v1/write'
 
 prometheus-node-exporter:
   enabled: true

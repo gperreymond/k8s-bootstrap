@@ -5,11 +5,27 @@ storage:
   path: /data/data.db
   
 endpoints:
+  # 'host'
+  - name: 'prometheus'
+    group: 'host'
+    url: "http://prometheus:9090/-/healthy"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 150"
   # 'k3s-controller'
+  - name: 'argo-cd'
+    group: 'k3s-controller'
+    url: "http://argo-cd.docker.localhost/healthz"
+    interval: 2m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY] == ok"
+      - "[RESPONSE_TIME] < 150"
   - name: 'prometheus'
     group: 'k3s-controller'
     url: "http://k3s-controller.prometheus.docker.localhost/-/healthy"
-    interval: 5m
+    interval: 2m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 150"
@@ -17,7 +33,7 @@ endpoints:
   - name: 'prometheus'
     group: 'k3s-edge'
     url: "http://k3s-controller.prometheus.docker.localhost/-/healthy"
-    interval: 5m
+    interval: 2m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 150"
